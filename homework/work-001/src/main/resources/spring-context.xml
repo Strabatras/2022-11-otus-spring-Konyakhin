@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataReader"
+          class="ru.otus.homework.util.CsvFileDataReader">
+        <constructor-arg name="fileName" value="quiz/quiz.csv"/>
+    </bean>
+
+    <bean id="quizDao"
+          class="ru.otus.homework.dao.impl.QuizDaoImpl">
+        <constructor-arg name="dataReader" ref="dataReader"/>
+    </bean>
+
+    <bean id="quizService"
+          class="ru.otus.homework.service.impl.QuizServiceImpl">
+        <constructor-arg name="quizDao" ref="quizDao"/>
+    </bean>
+
+</beans>
