@@ -21,7 +21,7 @@ public class QuizDaoImpl implements QuizDao {
                     var name = row.stream().findFirst().get();
                     var answers = row.stream()
                             .skip(1)
-                            .map(n -> new QuizAnswer(n)).collect(Collectors.toList());
+                            .map(n -> new QuizAnswer(n, false)).collect(Collectors.toList());
                     return new Quiz(name, answers);
                 }).collect(Collectors.toList());
     }

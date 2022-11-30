@@ -17,7 +17,7 @@ class QuizTest {
     void SetUp() {
         answers = new ArrayList<>();
         for (int i = 1; i < 5; i++) {
-            answers.add(new QuizAnswer("QuizAnswer #" + i));
+            answers.add(new QuizAnswer("QuizAnswer #" + i, false));
         }
     }
 

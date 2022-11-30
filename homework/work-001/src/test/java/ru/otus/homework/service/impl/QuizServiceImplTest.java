@@ -31,7 +31,7 @@ class QuizServiceImplTest {
     void quizzesShouldBeCorrect() {
         final List<Quiz> quizzes = new ArrayList<>();
         final List<QuizAnswer> answers = new ArrayList<>();
-        answers.add(new QuizAnswer("QuizAnswerName"));
+        answers.add(new QuizAnswer("QuizAnswerName", false));
         quizzes.add(new Quiz("QuizName", answers));
 
         lenient().when(quizDao.quizzes()).thenReturn(quizzes);
