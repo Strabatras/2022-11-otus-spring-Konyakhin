@@ -2,6 +2,7 @@ package ru.otus.homework.util;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import lombok.RequiredArgsConstructor;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,12 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class CsvFileDataReader implements DataReader {
     private final String fileName;
-
-    public CsvFileDataReader(String fileName) {
-        this.fileName = fileName;
-    }
 
     private Path filePath() throws URISyntaxException {
         URL uri = ClassLoader.getSystemResource(fileName);

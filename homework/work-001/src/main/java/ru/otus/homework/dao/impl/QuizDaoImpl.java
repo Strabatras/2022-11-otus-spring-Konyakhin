@@ -1,6 +1,6 @@
 package ru.otus.homework.dao.impl;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import ru.otus.homework.dao.QuizDao;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.domain.QuizAnswer;
@@ -9,7 +9,7 @@ import ru.otus.homework.util.DataReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuizDaoImpl implements QuizDao {
     private final DataReader dataReader;
 

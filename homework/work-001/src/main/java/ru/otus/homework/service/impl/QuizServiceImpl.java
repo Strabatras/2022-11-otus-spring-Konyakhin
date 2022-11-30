@@ -1,13 +1,13 @@
 package ru.otus.homework.service.impl;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import ru.otus.homework.dao.QuizDao;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.service.QuizService;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuizServiceImpl implements QuizService {
     private final QuizDao quizDao;
 
