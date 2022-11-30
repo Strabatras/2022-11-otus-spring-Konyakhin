@@ -14,12 +14,16 @@ public class QuizDaoImpl implements QuizDao {
     private final DataReader dataReader;
 
     public List<Quiz> quizzes() {
-        var data = dataReader.readLines();
-        return data.stream()
-                .filter(row -> !row.stream().findFirst().get().trim().isEmpty())
-                .map(row -> {
-                    var name = row.stream().findFirst().get();
-                    var answers = row.stream()
+        var lines = dataReader.readLines();
+        return lines.stream()
+                .filter(line -> {
+                            var name = line.stream().findFirst();
+                            return name.isPresent() && !name.get().trim().isEmpty();
+                        }
+                )
+                .map(line -> {
+                    var name = line.stream().findFirst().get();
+                    var answers = line.stream()
                             .skip(1)
                             .map(n -> new QuizAnswer(n, false)).collect(Collectors.toList());
                     return new Quiz(name, answers);

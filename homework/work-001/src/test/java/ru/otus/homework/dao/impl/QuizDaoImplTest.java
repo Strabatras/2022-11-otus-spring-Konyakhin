@@ -22,12 +22,12 @@ class QuizDaoImplTest {
 
     private List<List<String>> dataToCheck() {
         return new ArrayList<>(Arrays.asList(
-                    new ArrayList<>(Arrays.asList("A", "A1", "A2", "A3")),
-                    new ArrayList<>(Arrays.asList("B")),
-                    new ArrayList<>(Arrays.asList(" ")),
-                    new ArrayList<>(Arrays.asList("C", "C1", "C2", "C3", "C4", "C5")),
-                    new ArrayList<>(Arrays.asList("D", "D1", "D2")),
-                    new ArrayList<>(Arrays.asList(""))
+                new ArrayList<>(Arrays.asList("A", "A1", "A2", "A3")),
+                new ArrayList<>(Arrays.asList("B")),
+                new ArrayList<>(Arrays.asList(" ")),
+                new ArrayList<>(Arrays.asList("C", "C1", "C2", "C3", "C4", "C5")),
+                new ArrayList<>(Arrays.asList("D", "D1", "D2")),
+                new ArrayList<>(Arrays.asList(""))
         ));
     }
 
@@ -41,20 +41,24 @@ class QuizDaoImplTest {
         assertNotNull(quizzes);
 
         final String[] quizzesNames = dataToCheck.stream()
-                .filter(row -> !row.stream().findFirst().get().trim().isEmpty())
-                .map(row -> row.stream().findFirst().get())
+                .filter(line -> {
+                            var name = line.stream().findFirst();
+                            return name.isPresent() && !name.get().trim().isEmpty();
+                        }
+                )
+                .map(line -> line.stream().findFirst().get())
                 .toArray(String[]::new);
 
         assertEquals(dataToCheck.size() - (dataToCheck.size() - quizzesNames.length), quizzes.size());
 
-        for (int i = 0; i < quizzesNames.length; i++){
+        for (int i = 0; i < quizzesNames.length; i++) {
             var quiz = quizzes.get(i);
             assertTrue(quiz.getClass().getSimpleName().equals("Quiz"));
             assertEquals(quizzesNames[i], quiz.getName());
             for (int j = 0; j < quiz.getAnswers().size(); j++) {
                 var quizAnswer = quiz.getAnswers().get(j);
                 assertTrue(quizAnswer.getClass().getSimpleName().equals("QuizAnswer"));
-                assertEquals(quizzesNames[i] + ( j + 1 ), quizAnswer.getName());
+                assertEquals(quizzesNames[i] + (j + 1), quizAnswer.getName());
             }
         }
     }
