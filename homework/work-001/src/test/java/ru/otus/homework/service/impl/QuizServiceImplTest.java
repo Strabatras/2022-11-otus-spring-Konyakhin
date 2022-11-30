@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class QuizServiceImplTest {
@@ -34,7 +34,7 @@ class QuizServiceImplTest {
         answers.add(new QuizAnswer("QuizAnswerName", false));
         quizzes.add(new Quiz("QuizName", answers));
 
-        lenient().when(quizDao.quizzes()).thenReturn(quizzes);
+        when(quizDao.quizzes()).thenReturn(quizzes);
         assertEquals(quizzes, quizService.quizzes());
     }
 }

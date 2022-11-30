@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class QuizDaoImplTest {
@@ -35,7 +35,7 @@ class QuizDaoImplTest {
     void quizzesShouldBeCorrect() {
         final List<List<String>> dataToCheck = dataToCheck();
 
-        lenient().when(dataReader.readLines()).thenReturn(dataToCheck);
+        when(dataReader.readLines()).thenReturn(dataToCheck);
         final QuizDao quizDao = new QuizDaoImpl(dataReader);
         final List<Quiz> quizzes = quizDao.quizzes();
         assertNotNull(quizzes);
