@@ -49,7 +49,7 @@ public class CsvFileDataReader implements DataReader {
     }
 
     @Override
-    public List<List<String>> data() {
+    public List<List<String>> readLines() {
         if (null != data) {
             return data;
         }

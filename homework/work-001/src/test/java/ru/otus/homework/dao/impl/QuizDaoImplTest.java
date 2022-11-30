@@ -35,7 +35,7 @@ class QuizDaoImplTest {
     void quizzesShouldBeCorrect() {
         final List<List<String>> dataToCheck = dataToCheck();
 
-        lenient().when(dataReader.data()).thenReturn(dataToCheck);
+        lenient().when(dataReader.readLines()).thenReturn(dataToCheck);
         final QuizDao quizDao = new QuizDaoImpl(dataReader);
         final List<Quiz> quizzes = quizDao.quizzes();
         assertNotNull(quizzes);

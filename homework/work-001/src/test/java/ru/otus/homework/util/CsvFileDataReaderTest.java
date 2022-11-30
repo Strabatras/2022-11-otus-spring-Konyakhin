@@ -13,19 +13,19 @@ class CsvFileDataReaderTest {
     @Test
     void dataShouldBeReturnRuntimeException() {
         DataReader dataReader = new CsvFileDataReader("");
-        assertThrows(RuntimeException.class, () -> dataReader.data());
+        assertThrows(RuntimeException.class, () -> dataReader.readLines());
     }
 
     @Test
     void dataShouldBeReturnArrayListType() {
         DataReader dataReader = new CsvFileDataReader("quiz-data-reader-test.csv");
-        assertTrue(dataReader.data().getClass().getSimpleName().equals("ArrayList"));
+        assertTrue(dataReader.readLines().getClass().getSimpleName().equals("ArrayList"));
     }
 
     @Test
     void dataShouldBeReturnArrayListTypeFromEmptyCsvFile() {
         DataReader dataReader = new CsvFileDataReader("empty-file.csv");
-        assertTrue(dataReader.data().getClass().getSimpleName().equals("ArrayList"));
+        assertTrue(dataReader.readLines().getClass().getSimpleName().equals("ArrayList"));
     }
 
     @Test
@@ -38,6 +38,6 @@ class CsvFileDataReaderTest {
                 new ArrayList<>(Arrays.asList("E", "E1", "E2"))
         ));
         DataReader dataReader = new CsvFileDataReader("quiz-data-reader-test.csv");
-        assertArrayEquals(expectedData.toArray(), dataReader.data().toArray());
+        assertArrayEquals(expectedData.toArray(), dataReader.readLines().toArray());
     }
 }

@@ -14,7 +14,7 @@ public class QuizDaoImpl implements QuizDao {
     private final DataReader dataReader;
 
     public List<Quiz> quizzes() {
-        var data = dataReader.data();
+        var data = dataReader.readLines();
         return data.stream()
                 .filter(row -> !row.stream().findFirst().get().trim().isEmpty())
                 .map(row -> {
