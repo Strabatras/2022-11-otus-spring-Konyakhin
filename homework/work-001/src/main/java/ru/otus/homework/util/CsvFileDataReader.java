@@ -13,11 +13,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class CsvFileDataReader implements DataReader {
     private final String fileName;
-    private List<List<String>> data;
 
     public CsvFileDataReader(String fileName) {
         this.fileName = fileName;
@@ -50,11 +48,6 @@ public class CsvFileDataReader implements DataReader {
 
     @Override
     public List<List<String>> readLines() {
-        if (null != data) {
-            return data;
-        }
-        data = Optional.ofNullable(prepareData())
-                .orElseGet(() -> new ArrayList<>());
-        return data;
+        return prepareData();
     }
 }
