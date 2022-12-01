@@ -11,25 +11,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class CsvFileDataReaderTest {
 
     @Test
-    void dataShouldBeReturnRuntimeException() {
+    void quizFileNameIsEmptyReadLinesShouldBeReturnIllegalArgumentException() {
         DataReader dataReader = new CsvFileDataReader("");
-        assertThrows(RuntimeException.class, () -> dataReader.readLines());
+        assertThrows(IllegalArgumentException.class, () -> dataReader.readLines());
     }
 
     @Test
-    void dataShouldBeReturnArrayListType() {
-        DataReader dataReader = new CsvFileDataReader("quiz-data-reader-test.csv");
-        assertTrue(dataReader.readLines().getClass().getSimpleName().equals("ArrayList"));
+    void quizFileNameIsWrongReadLinesShouldBeReturnIllegalArgumentException() {
+        DataReader dataReader = new CsvFileDataReader("wrong.csv");
+        assertThrows(IllegalArgumentException.class, () -> dataReader.readLines());
     }
 
     @Test
-    void dataShouldBeReturnArrayListTypeFromEmptyCsvFile() {
+    void quizFileIsEmptyReadLinesShouldBeReturnArrayListType() {
         DataReader dataReader = new CsvFileDataReader("empty-file.csv");
         assertTrue(dataReader.readLines().getClass().getSimpleName().equals("ArrayList"));
     }
 
     @Test
-    void dataShouldBeReturnCorrect() {
+    void readLinesShouldBeReturnArrayListType() {
+        DataReader dataReader = new CsvFileDataReader("quiz-data-reader-test.csv");
+        assertTrue(dataReader.readLines().getClass().getSimpleName().equals("ArrayList"));
+    }
+
+    @Test
+    void readLinesShouldBeReturnCorrect() {
         List<List<String>> expectedData = new ArrayList<>(Arrays.asList(
                 new ArrayList<>(Arrays.asList("A")),
                 new ArrayList<>(Arrays.asList("B", "B1", "B2", "B3")),

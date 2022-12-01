@@ -4,13 +4,9 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,23 +15,28 @@ import java.util.List;
 public class CsvFileDataReader implements DataReader {
     private final String fileName;
 
-    private Path filePath() throws URISyntaxException {
-        URL uri = ClassLoader.getSystemResource(fileName);
-        if (null == uri){
-            throw new RuntimeException("Quiz CSV file path converting to URI error");
+    private InputStream fileFromResourceAsStream(String fileName) {
+        if (fileName.isEmpty()) {
+            throw new IllegalArgumentException("The quiz CSV file name is empty");
         }
-        return Paths.get(uri.toURI());
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+        if (inputStream == null) {
+            throw new IllegalArgumentException("The quiz CSV file is not found");
+        } else {
+            return inputStream;
+        }
     }
 
     private List<List<String>> prepareData() {
         final List<List<String>> records = new ArrayList<>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(filePath().toFile()));) {
+        final InputStream inputStream = fileFromResourceAsStream(fileName);
+        try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+             CSVReader csvReader = new CSVReader(inputStreamReader)) {
             String[] values;
             while ((values = csvReader.readNext()) != null) {
                 records.add(Arrays.asList(values));
             }
-        } catch (FileNotFoundException | URISyntaxException e) {
-            throw new RuntimeException("The quiz CSV file is not found");
         } catch (IOException e) {
             throw new RuntimeException("Quiz CSV file reading error");
         } catch (CsvValidationException e) {
