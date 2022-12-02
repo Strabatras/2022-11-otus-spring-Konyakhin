@@ -19,4 +19,31 @@
         <constructor-arg name="quizDao" ref="quizDao"/>
     </bean>
 
+    <bean id="outputService"
+          class="ru.otus.homework.service.impl.OutputServiceImpl">
+        <constructor-arg name="outputStream" value="#{T(System).out}"/>
+    </bean>
+
+    <bean id="javaUtilScanner"
+          class="java.util.Scanner">
+        <constructor-arg value="#{T(System).in}"/>
+    </bean>
+
+    <bean id="inputService"
+          class="ru.otus.homework.service.impl.InputServiceImpl">
+        <constructor-arg name="inputStream" ref="javaUtilScanner"/>
+    </bean>
+
+    <bean id="ioService"
+          class="ru.otus.homework.service.impl.IOServiceImpl">
+        <constructor-arg name="outputService" ref="outputService"/>
+        <constructor-arg name="inputService" ref="inputService"/>
+    </bean>
+
+    <bean id="quizRunnerService"
+          class="ru.otus.homework.service.impl.QuizRunnerServiceImpl">
+        <constructor-arg name="quizService" ref="quizService"/>
+        <constructor-arg name="ioService" ref="ioService"/>
+    </bean>
+
 </beans>
