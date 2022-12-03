@@ -16,11 +16,7 @@ public class QuizDaoImpl implements QuizDao {
     public List<Quiz> quizzes() {
         var lines = dataReader.readLines();
         return lines.stream()
-                .filter(line -> {
-                            var name = line.stream().findFirst();
-                            return name.isPresent() && !name.get().trim().isEmpty();
-                        }
-                )
+                .filter(line -> line.stream().findFirst().orElse("").trim().length() > 0)
                 .map(line -> {
                     var name = line.stream().findFirst().get();
                     var answers = line.stream()
