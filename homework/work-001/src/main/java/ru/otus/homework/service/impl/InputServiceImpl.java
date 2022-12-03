@@ -10,7 +10,7 @@ public class InputServiceImpl implements InputService {
     private final Scanner inputStream;
 
     @Override
-    public String readString(String prompt) {
+    public String readString() {
         return inputStream.nextLine();
     }
 }

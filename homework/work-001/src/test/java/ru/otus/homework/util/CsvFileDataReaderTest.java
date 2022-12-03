@@ -1,49 +1,66 @@
 package ru.otus.homework.util;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ru.otus.homework.DataFactory.CSV_CORRECT_QUIZZES_FILE;
+import static ru.otus.homework.DataFactory.CSV_EMPTY_FILE;
+import static ru.otus.homework.DataFactory.CSV_EMPTY_NAME_OF_FILE;
+import static ru.otus.homework.DataFactory.CSV_NON_EXISTENT_FILE;
+import static ru.otus.homework.DataFactory.MESSAGE_CSV_FILE_IS_EMPTY_FOUND;
+import static ru.otus.homework.DataFactory.MESSAGE_CSV_FILE_IS_NOT_FOUND;
+import static ru.otus.homework.DataFactory.expectedReadLinesForCorrectQuizzesFile;
 
+@DisplayName("Разбор csv файлов")
 class CsvFileDataReaderTest {
 
+    @DisplayName("выбрасывает конкретное исключение 'IllegalArgumentException' если имя файла пустое")
     @Test
-    void quizFileNameIsEmptyReadLinesShouldBeReturnIllegalArgumentException() {
-        DataReader dataReader = new CsvFileDataReader("");
-        assertThrows(IllegalArgumentException.class, () -> dataReader.readLines());
+    void shouldReturnIllegalArgumentExceptionForEmptyFileName() {
+        DataReader dataReader = new CsvFileDataReader(CSV_EMPTY_NAME_OF_FILE);
+        var exception = assertThrows(IllegalArgumentException.class, () -> dataReader.readLines());
+        assertEquals(MESSAGE_CSV_FILE_IS_EMPTY_FOUND, exception.getMessage());
     }
 
+    @DisplayName("выбрасывает конкретное исключение 'IllegalArgumentException' если указано имя несуществующего файла")
     @Test
-    void quizFileNameIsWrongReadLinesShouldBeReturnIllegalArgumentException() {
-        DataReader dataReader = new CsvFileDataReader("wrong.csv");
-        assertThrows(IllegalArgumentException.class, () -> dataReader.readLines());
+    void shouldReturnIllegalArgumentExceptionForWrongFileName() {
+        DataReader dataReader = new CsvFileDataReader(CSV_NON_EXISTENT_FILE);
+        var exception = assertThrows(IllegalArgumentException.class, () -> dataReader.readLines());
+        assertEquals(MESSAGE_CSV_FILE_IS_NOT_FOUND, exception.getMessage());
     }
 
+    @DisplayName("возвращает пустой ArrayList если разбираемый файл пуст")
     @Test
-    void quizFileIsEmptyReadLinesShouldBeReturnArrayListType() {
-        DataReader dataReader = new CsvFileDataReader("empty-file.csv");
-        assertTrue(dataReader.readLines().getClass().getSimpleName().equals("ArrayList"));
+    void shouldReturnEmptyArrayLisIfFileIsEmpty() {
+        DataReader dataReader = new CsvFileDataReader(CSV_EMPTY_FILE);
+        var lines = dataReader.readLines();
+        assertTrue(lines.getClass().getSimpleName().equals("ArrayList"));
+        assertTrue(lines.isEmpty());
     }
 
+    @DisplayName("возвращает не пустой ArrayList если разбираемый файл не пуст")
     @Test
-    void readLinesShouldBeReturnArrayListType() {
-        DataReader dataReader = new CsvFileDataReader("quiz-data-reader-test.csv");
-        assertTrue(dataReader.readLines().getClass().getSimpleName().equals("ArrayList"));
+    void shouldReturnNotEmptyArrayLisIfFileIsNotEmpty() {
+        DataReader dataReader = new CsvFileDataReader(CSV_CORRECT_QUIZZES_FILE);
+        var lines = dataReader.readLines();
+        assertTrue(lines.getClass().getSimpleName().equals("ArrayList"));
+        assertTrue(!lines.isEmpty());
     }
 
+    @DisplayName("возвращает корректно заполненный ArrayList для корректного файла с вопросами")
     @Test
-    void readLinesShouldBeReturnCorrect() {
-        List<List<String>> expectedData = new ArrayList<>(Arrays.asList(
-                new ArrayList<>(Arrays.asList("A")),
-                new ArrayList<>(Arrays.asList("B", "B1", "B2", "B3")),
-                new ArrayList<>(Arrays.asList("C", "C1", "C2", "C3", "C4", "C5")),
-                new ArrayList<>(Arrays.asList("D", "D1")),
-                new ArrayList<>(Arrays.asList("E", "E1", "E2"))
-        ));
-        DataReader dataReader = new CsvFileDataReader("quiz-data-reader-test.csv");
-        assertArrayEquals(expectedData.toArray(), dataReader.readLines().toArray());
+    void shouldReturnCorrectArrayListForCorrectQuizzesFile() {
+        List<List<String>> expected = expectedReadLinesForCorrectQuizzesFile();
+        DataReader dataReader = new CsvFileDataReader(CSV_CORRECT_QUIZZES_FILE);
+        var lines = dataReader.readLines();
+        assertTrue(lines.getClass().getSimpleName().equals("ArrayList"));
+        assertArrayEquals(expected.toArray(), lines.toArray());
     }
 }

@@ -1,42 +1,44 @@
 package ru.otus.homework.domain;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static ru.otus.homework.DataFactory.QUIZ_NAME;
+import static ru.otus.homework.DataFactory.answers;
 
+@DisplayName("Вопрос")
 class QuizTest {
-    private static final String QUIZ_NAME = "QuizName";
     private static List<QuizAnswer> answers;
 
     @BeforeEach
     void SetUp() {
-        answers = new ArrayList<>();
-        for (int i = 1; i < 5; i++) {
-            answers.add(new QuizAnswer("QuizAnswer #" + i, false));
-        }
+        answers = answers("QuizAnswer #", 4);
     }
 
+    @DisplayName("должен быть корректный конструктор")
     @Test
-    void constructorShouldBeCorrect() {
+    void shouldBeCorrectConstructor() {
         Quiz quiz = new Quiz(QUIZ_NAME, answers);
         assertEquals(QUIZ_NAME, quiz.getName());
         assertNotNull(quiz.getAnswers());
         assertEquals(answers, quiz.getAnswers());
     }
 
+    @DisplayName("корректно возвращается название вопроса")
     @Test
-    void getNameShouldBeCorrect() {
+    void shouldReturnCorrectName() {
         Quiz quiz = new Quiz(QUIZ_NAME, answers);
         assertEquals(QUIZ_NAME, quiz.getName());
     }
 
+    @DisplayName("корректно возвращается список ответов")
     @Test
-    void getAnswersShouldBeCorrect() {
+    void shouldReturnCorrectAnswersList() {
         Quiz quiz = new Quiz(QUIZ_NAME, answers);
         assertNotNull(quiz.getAnswers());
         assertEquals(answers, quiz.getAnswers());

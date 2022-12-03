@@ -16,7 +16,7 @@ public class IOServiceImpl implements IOService, InputService, OutputService {
     }
 
     @Override
-    public String readString(String prompt) {
-        return inputService.readString(prompt);
+    public String readString() {
+        return inputService.readString();
     }
 }

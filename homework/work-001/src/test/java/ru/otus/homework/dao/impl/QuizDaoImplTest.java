@@ -1,51 +1,40 @@
 package ru.otus.homework.dao.impl;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.otus.homework.dao.QuizDao;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.util.DataReader;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+import static ru.otus.homework.DataFactory.preparedLinesFromFileWithEmptyLines;
 
+@DisplayName("Вопросы/ответы - DAO")
 @ExtendWith(MockitoExtension.class)
 class QuizDaoImplTest {
     @Mock
     private DataReader dataReader;
+    @InjectMocks
+    private QuizDaoImpl quizDao;
 
-    private List<List<String>> dataToCheck() {
-        return new ArrayList<>(Arrays.asList(
-                new ArrayList<>(Arrays.asList("A", "A1", "A2", "A3")),
-                new ArrayList<>(Arrays.asList("B")),
-                new ArrayList<>(Arrays.asList(" ")),
-                new ArrayList<>(Arrays.asList("C", "C1", "C2", "C3", "C4", "C5")),
-                new ArrayList<>(Arrays.asList("D", "D1", "D2")),
-                new ArrayList<>(Arrays.asList(""))
-        ));
-    }
-
+    @DisplayName("возвращается корректный список")
     @Test
-    void quizzesShouldBeCorrect() {
-        final List<List<String>> dataToCheck = dataToCheck();
-
+    void shouldBeCreateCorrectQuizzes() {
+        final List<List<String>> dataToCheck = preparedLinesFromFileWithEmptyLines();
         when(dataReader.readLines()).thenReturn(dataToCheck);
-        final QuizDao quizDao = new QuizDaoImpl(dataReader);
         final List<Quiz> quizzes = quizDao.quizzes();
         assertNotNull(quizzes);
 
         final String[] quizzesNames = dataToCheck.stream()
-                .filter(line -> {
-                            var name = line.stream().findFirst();
-                            return name.isPresent() && !name.get().trim().isEmpty();
-                        }
-                )
+                .filter(line -> line.stream().findFirst().orElse("").trim().length() > 0)
                 .map(line -> line.stream().findFirst().get())
                 .toArray(String[]::new);
 

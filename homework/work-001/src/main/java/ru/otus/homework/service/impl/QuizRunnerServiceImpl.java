@@ -18,7 +18,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
             final var quizzes = quizService.quizzes();
             quizzes.forEach(quiz -> {
                 ioService.outputString(quiz.getName() + ":");
-                quiz.getAnswers().forEach(answer -> System.out.println("  " + answer.getName()));
+                quiz.getAnswers().forEach(answer -> ioService.outputString("  " + answer.getName()));
             });
             if (quizzes.isEmpty()) {
                 ioService.outputString(I_DONT_HAVE_QUESTIONS);
