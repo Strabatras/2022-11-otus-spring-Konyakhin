@@ -5,5 +5,5 @@ import ru.otus.homework.domain.Quiz;
 import java.util.List;
 
 public interface QuizService {
-    List<Quiz> quizzes();
+    List<Quiz> getQuizzes();
 }

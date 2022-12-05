@@ -15,7 +15,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     @Override
     public void run() {
         try {
-            final var quizzes = quizService.quizzes();
+            final var quizzes = quizService.getQuizzes();
             quizzes.forEach(quiz -> {
                 ioService.outputString(quiz.getName() + ":");
                 quiz.getAnswers().forEach(answer -> ioService.outputString("  " + answer.getName()));

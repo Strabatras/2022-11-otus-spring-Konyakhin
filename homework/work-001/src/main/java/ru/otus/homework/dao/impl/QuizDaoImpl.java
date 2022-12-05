@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class QuizDaoImpl implements QuizDao {
     private final DataReader dataReader;
 
-    public List<Quiz> quizzes() {
+    public List<Quiz> getQuizzes() {
         var lines = dataReader.readLines();
         return lines.stream()
                 .filter(line -> line.stream().findFirst().orElse("").trim().length() > 0)

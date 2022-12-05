@@ -12,7 +12,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuizDao quizDao;
 
     @Override
-    public List<Quiz> quizzes() {
-        return quizDao.quizzes();
+    public List<Quiz> getQuizzes() {
+        return quizDao.getQuizzes();
     }
 }
