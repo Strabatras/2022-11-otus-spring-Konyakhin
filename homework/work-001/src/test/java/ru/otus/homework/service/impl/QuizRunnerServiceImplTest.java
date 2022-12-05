@@ -32,9 +32,9 @@ class QuizRunnerServiceImplTest {
     @DisplayName("вывод конкретного сообщения для пустого списка вопросов")
     @Test
     void shouldOutputExpectedMessageForEmptyQuizizzList() {
-        when(quizService.quizzes()).thenReturn(quizzesEmptyList());
+        when(quizService.getQuizzes()).thenReturn(quizzesEmptyList());
         quizRunnerService.run();
-        verify(quizService, times(1)).quizzes();
+        verify(quizService, times(1)).getQuizzes();
         var captor = ArgumentCaptor.forClass(String.class);
         verify(ioService, times(1)).outputString(captor.capture());
         assertEquals(MESSAGE_I_DONT_HAVE_QUESTIONS, captor.getValue());
@@ -43,9 +43,9 @@ class QuizRunnerServiceImplTest {
     @DisplayName("вывод в консоль сообщения исключения")
     @Test
     void shouldOutputExpectedExceptionMessage() {
-        given(quizService.quizzes()).willThrow(new RuntimeException(MESSAGE_ANY_ERROR));
+        given(quizService.getQuizzes()).willThrow(new RuntimeException(MESSAGE_ANY_ERROR));
         quizRunnerService.run();
-        verify(quizService, times(1)).quizzes();
+        verify(quizService, times(1)).getQuizzes();
         var captor = ArgumentCaptor.forClass(String.class);
         verify(ioService, times(1)).outputString(captor.capture());
         assertEquals(MESSAGE_ANY_ERROR, captor.getValue());

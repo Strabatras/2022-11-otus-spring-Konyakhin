@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ru.otus.homework.DataFactory.CLASS_SIMPLE_NAME_ARRAY_LIST;
 import static ru.otus.homework.DataFactory.CSV_CORRECT_QUIZZES_FILE;
 import static ru.otus.homework.DataFactory.CSV_EMPTY_FILE;
 import static ru.otus.homework.DataFactory.CSV_EMPTY_NAME_OF_FILE;
@@ -41,7 +42,7 @@ class CsvFileDataReaderTest {
     void shouldReturnEmptyArrayLisIfFileIsEmpty() {
         DataReader dataReader = new CsvFileDataReader(CSV_EMPTY_FILE);
         var lines = dataReader.readLines();
-        assertTrue(lines.getClass().getSimpleName().equals("ArrayList"));
+        assertEquals(CLASS_SIMPLE_NAME_ARRAY_LIST, lines.getClass().getSimpleName());
         assertTrue(lines.isEmpty());
     }
 
@@ -50,7 +51,7 @@ class CsvFileDataReaderTest {
     void shouldReturnNotEmptyArrayLisIfFileIsNotEmpty() {
         DataReader dataReader = new CsvFileDataReader(CSV_CORRECT_QUIZZES_FILE);
         var lines = dataReader.readLines();
-        assertTrue(lines.getClass().getSimpleName().equals("ArrayList"));
+        assertEquals(CLASS_SIMPLE_NAME_ARRAY_LIST, lines.getClass().getSimpleName());
         assertTrue(!lines.isEmpty());
     }
 
@@ -60,7 +61,7 @@ class CsvFileDataReaderTest {
         List<List<String>> expected = expectedReadLinesForCorrectQuizzesFile();
         DataReader dataReader = new CsvFileDataReader(CSV_CORRECT_QUIZZES_FILE);
         var lines = dataReader.readLines();
-        assertTrue(lines.getClass().getSimpleName().equals("ArrayList"));
+        assertEquals(CLASS_SIMPLE_NAME_ARRAY_LIST, lines.getClass().getSimpleName());
         assertArrayEquals(expected.toArray(), lines.toArray());
     }
 }

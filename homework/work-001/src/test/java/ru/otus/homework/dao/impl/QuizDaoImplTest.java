@@ -13,8 +13,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+import static ru.otus.homework.DataFactory.CLASS_SIMPLE_NAME_QUIZ;
+import static ru.otus.homework.DataFactory.CLASS_SIMPLE_NAME_QUIZ_ANSWER;
 import static ru.otus.homework.DataFactory.preparedLinesFromFileWithEmptyLines;
 
 @DisplayName("Вопросы/ответы - DAO")
@@ -30,7 +31,7 @@ class QuizDaoImplTest {
     void shouldBeCreateCorrectQuizzes() {
         final List<List<String>> dataToCheck = preparedLinesFromFileWithEmptyLines();
         when(dataReader.readLines()).thenReturn(dataToCheck);
-        final List<Quiz> quizzes = quizDao.quizzes();
+        final List<Quiz> quizzes = quizDao.getQuizzes();
         assertNotNull(quizzes);
 
         final String[] quizzesNames = dataToCheck.stream()
@@ -42,11 +43,11 @@ class QuizDaoImplTest {
 
         for (int i = 0; i < quizzesNames.length; i++) {
             var quiz = quizzes.get(i);
-            assertTrue(quiz.getClass().getSimpleName().equals("Quiz"));
+            assertEquals(CLASS_SIMPLE_NAME_QUIZ, quiz.getClass().getSimpleName());
             assertEquals(quizzesNames[i], quiz.getName());
             for (int j = 0; j < quiz.getAnswers().size(); j++) {
                 var quizAnswer = quiz.getAnswers().get(j);
-                assertTrue(quizAnswer.getClass().getSimpleName().equals("QuizAnswer"));
+                assertEquals(CLASS_SIMPLE_NAME_QUIZ_ANSWER, quizAnswer.getClass().getSimpleName());
                 assertEquals(quizzesNames[i] + (j + 1), quizAnswer.getName());
             }
         }

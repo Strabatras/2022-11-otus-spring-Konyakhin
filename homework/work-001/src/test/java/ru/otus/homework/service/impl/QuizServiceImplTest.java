@@ -27,7 +27,7 @@ class QuizServiceImplTest {
     @Test
     void shouldReturnCorrectQuizzesList() {
         final List<Quiz> quizzes = quizzesWithAnswers();
-        when(quizDao.quizzes()).thenReturn(quizzes);
-        assertEquals(quizzes, quizService.quizzes());
+        when(quizDao.getQuizzes()).thenReturn(quizzes);
+        assertEquals(quizzes, quizService.getQuizzes());
     }
 }

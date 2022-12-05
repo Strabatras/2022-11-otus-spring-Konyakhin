@@ -12,6 +12,9 @@ public class DataFactory {
     public static final String MESSAGE_ANY_ERROR = "Any error message.";
     public static final String MESSAGE_CSV_FILE_IS_NOT_FOUND = "The quiz CSV file is not found";
     public static final String MESSAGE_CSV_FILE_IS_EMPTY_FOUND = "The quiz CSV file name is empty";
+    public static final String CLASS_SIMPLE_NAME_ARRAY_LIST = "ArrayList";
+    public static final String CLASS_SIMPLE_NAME_QUIZ = "Quiz";
+    public static final String CLASS_SIMPLE_NAME_QUIZ_ANSWER = "QuizAnswer";
     public static final String SOME_TEXT = "Lorem Ipsum is simply dummy text.";
     public static final String QUIZ_ANSWER_NAME = "QuizAnswerName";
     public static final String QUIZ_NAME = "QuizName";
@@ -20,20 +23,20 @@ public class DataFactory {
     public static final String CSV_CORRECT_QUIZZES_FILE = "quizzes.csv";
     public static final String CSV_NON_EXISTENT_FILE = "non-existent.csv";
 
-    public static List<QuizAnswer> answers(String quizName, int quantity){
+    public static List<QuizAnswer> answers(String quizName, int quantity) {
         List<QuizAnswer> answers = new ArrayList<>();
-        for (int i = 1; i <= quantity; i++){
-            QuizAnswer answer = new QuizAnswer(quizName + 1, (i%2==0));
+        for (int i = 1; i <= quantity; i++) {
+            QuizAnswer answer = new QuizAnswer(quizName + 1, (i % 2 == 0));
             answers.add(answer);
         }
         return answers;
     }
 
-    public static List<Quiz> quizzesEmptyList(){
+    public static List<Quiz> quizzesEmptyList() {
         return new ArrayList<>();
     }
 
-    public static List<Quiz> quizzesWithAnswers(){
+    public static List<Quiz> quizzesWithAnswers() {
         List<Quiz> quizzes = new ArrayList<>();
         List<QuizAnswer> answers = new ArrayList<>();
         quizzes.add(new Quiz("A", answers("A", 3)));
@@ -44,7 +47,7 @@ public class DataFactory {
         return quizzes;
     }
 
-    public static List<List<String>> preparedLinesFromFileWithEmptyLines(){
+    public static List<List<String>> preparedLinesFromFileWithEmptyLines() {
         return new ArrayList<>(Arrays.asList(
                 new ArrayList<>(Arrays.asList("A", "A1", "A2", "A3")),
                 new ArrayList<>(Arrays.asList("B")),
@@ -55,7 +58,7 @@ public class DataFactory {
         ));
     }
 
-    public static List<List<String>> expectedReadLinesForCorrectQuizzesFile(){
+    public static List<List<String>> expectedReadLinesForCorrectQuizzesFile() {
         return new ArrayList<>(Arrays.asList(
                 new ArrayList<>(Arrays.asList("A")),
                 new ArrayList<>(Arrays.asList("B", "B1", "B2", "B3")),
