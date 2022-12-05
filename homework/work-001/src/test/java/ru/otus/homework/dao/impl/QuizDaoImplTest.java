@@ -36,7 +36,7 @@ class QuizDaoImplTest {
 
         final String[] quizzesNames = dataToCheck.stream()
                 .filter(line -> line.stream().findFirst().orElse("").trim().length() > 0)
-                .map(line -> line.stream().findFirst().get())
+                .map(line -> line.get(0).trim())
                 .toArray(String[]::new);
 
         assertEquals(dataToCheck.size() - (dataToCheck.size() - quizzesNames.length), quizzes.size());

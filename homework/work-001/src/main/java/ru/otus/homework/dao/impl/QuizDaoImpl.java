@@ -18,11 +18,12 @@ public class QuizDaoImpl implements QuizDao {
         return lines.stream()
                 .filter(line -> line.stream().findFirst().orElse("").trim().length() > 0)
                 .map(line -> {
-                    var name = line.stream().findFirst().get();
                     var answers = line.stream()
                             .skip(1)
-                            .map(n -> new QuizAnswer(n, false)).collect(Collectors.toList());
-                    return new Quiz(name, answers);
+                            .filter(answer -> answer.trim().length() > 0)
+                            .map(answer -> new QuizAnswer(answer.trim(), false))
+                            .collect(Collectors.toList());
+                    return new Quiz(line.get(0).trim(), answers);
                 }).collect(Collectors.toList());
     }
 }
