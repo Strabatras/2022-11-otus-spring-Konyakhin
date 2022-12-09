@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataReader"
+          class="ru.otus.homework.util.CsvFileDataReader">
+        <constructor-arg name="fileName" value="quiz/quiz.csv"/>
+    </bean>
+
+    <bean id="quizDao"
+          class="ru.otus.homework.dao.impl.QuizDaoImpl">
+        <constructor-arg name="dataReader" ref="dataReader"/>
+    </bean>
+
+    <bean id="quizService"
+          class="ru.otus.homework.service.impl.QuizServiceImpl">
+        <constructor-arg name="quizDao" ref="quizDao"/>
+    </bean>
+
+    <bean id="outputService"
+          class="ru.otus.homework.service.impl.OutputServiceImpl">
+        <constructor-arg name="outputStream" value="#{T(System).out}"/>
+    </bean>
+
+    <bean id="inputService"
+          class="ru.otus.homework.service.impl.InputServiceImpl">
+        <constructor-arg name="inputStream" value="#{T(System).in}"/>
+    </bean>
+
+    <bean id="ioService"
+          class="ru.otus.homework.service.impl.IOServiceImpl">
+        <constructor-arg name="outputService" ref="outputService"/>
+        <constructor-arg name="inputService" ref="inputService"/>
+    </bean>
+
+    <bean id="quizRunnerService"
+          class="ru.otus.homework.service.impl.QuizRunnerServiceImpl">
+        <constructor-arg name="quizService" ref="quizService"/>
+        <constructor-arg name="ioService" ref="ioService"/>
+    </bean>
+
+</beans>
