@@ -8,7 +8,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.homework.dao.QuizDao;
 import ru.otus.homework.domain.Quiz;
+import ru.otus.homework.exception.QuizException;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +27,7 @@ class QuizServiceImplTest {
 
     @DisplayName("корректно возвращает список вопросов/ответов")
     @Test
-    void shouldReturnCorrectQuizzesList() {
+    void shouldReturnCorrectQuizzesList() throws IOException, QuizException {
         final List<Quiz> quizzes = quizzesWithAnswers();
         when(quizDao.getQuizzes()).thenReturn(quizzes);
         assertEquals(quizzes, quizService.getQuizzes());

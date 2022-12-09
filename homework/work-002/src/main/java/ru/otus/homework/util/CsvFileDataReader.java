@@ -17,36 +17,34 @@ public class CsvFileDataReader implements DataReader {
 
     private InputStream fileFromResourceAsStream(String fileName) {
         if (fileName.isEmpty()) {
-            throw new IllegalArgumentException("The quiz CSV file name is empty");
+            throw new IllegalArgumentException("File name is empty");
         }
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);
         if (inputStream == null) {
-            throw new IllegalArgumentException("The quiz CSV file is not found");
-        } else {
-            return inputStream;
+            throw new IllegalArgumentException("File is not found");
         }
+        return inputStream;
     }
 
-    private List<List<String>> prepareData() {
+    private List<List<String>> prepareData() throws IOException {
         final List<List<String>> records = new ArrayList<>();
-        final InputStream inputStream = fileFromResourceAsStream(fileName);
-        try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-             CSVReader csvReader = new CSVReader(inputStreamReader)) {
-            String[] values;
-            while ((values = csvReader.readNext()) != null) {
-                records.add(Arrays.asList(values));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Quiz CSV file reading error");
+
+        try (final InputStream inputStream = fileFromResourceAsStream(fileName);
+             final InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+             final CSVReader csvReader = new CSVReader(inputStreamReader)) {
+                String[] values;
+                while ((values = csvReader.readNext()) != null) {
+                    records.add(Arrays.asList(values));
+                }
         } catch (CsvValidationException e) {
-            throw new RuntimeException("Quiz CSV file preparation error");
+            throw new RuntimeException(e);
         }
         return records;
     }
 
     @Override
-    public List<List<String>> readLines() {
+    public List<List<String>> readLines() throws IOException {
         return prepareData();
     }
 }

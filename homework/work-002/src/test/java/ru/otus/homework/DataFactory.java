@@ -8,14 +8,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DataFactory {
-    public static final String MESSAGE_I_DONT_HAVE_QUESTIONS = "Sorry. I don't have questions.";
-    public static final String MESSAGE_ANY_ERROR = "Any error message.";
-    public static final String MESSAGE_CSV_FILE_IS_NOT_FOUND = "The quiz CSV file is not found";
-    public static final String MESSAGE_CSV_FILE_IS_EMPTY_FOUND = "The quiz CSV file name is empty";
+    public static final String MESSAGE_I_DONT_HAVE_QUESTIONS = "Sorry. I don't have questions";
+    public static final String MESSAGE_ANY_ERROR = "Any error message";
+    public static final String MESSAGE_SOMETHING_WENT_WRONG_TO_USER = "Sorry. Something went wrong";
+    public static final String MESSAGE_CSV_FILE_IS_NOT_FOUND_TO_USER = "Sorry. The quiz CSV file is not found";
+    public static final String MESSAGE_CSV_FILE_PREPARATION_ERROR_TO_USER = "Sorry. Quiz CSV file preparation error";
+    public static final String MESSAGE_CSV_FILE_READING_ERROR_TO_USER = "Sorry. Quiz CSV file reading error";
+    public static final String MESSAGE_CSV_FILE_IS_NOT_FOUND = "File is not found";
+    public static final String MESSAGE_CSV_FILE_IS_EMPTY_FOUND = "File name is empty";
     public static final String CLASS_SIMPLE_NAME_ARRAY_LIST = "ArrayList";
     public static final String CLASS_SIMPLE_NAME_QUIZ = "Quiz";
     public static final String CLASS_SIMPLE_NAME_QUIZ_ANSWER = "QuizAnswer";
-    public static final String SOME_TEXT = "Lorem Ipsum is simply dummy text.";
+    public static final String SOME_TEXT = "Lorem Ipsum is simply dummy text";
     public static final String QUIZ_ANSWER_NAME = "QuizAnswerName";
     public static final String QUIZ_NAME = "QuizName";
     public static final String CSV_EMPTY_NAME_OF_FILE = "";

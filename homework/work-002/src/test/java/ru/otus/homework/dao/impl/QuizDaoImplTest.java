@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.util.DataReader;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +29,7 @@ class QuizDaoImplTest {
 
     @DisplayName("возвращается корректный список")
     @Test
-    void shouldBeCreateCorrectQuizzes() {
+    void shouldBeCreateCorrectQuizzes() throws IOException {
         final List<List<String>> dataToCheck = preparedLinesFromFileWithEmptyLines();
         when(dataReader.readLines()).thenReturn(dataToCheck);
         final List<Quiz> quizzes = quizDao.getQuizzes();

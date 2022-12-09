@@ -7,6 +7,7 @@ import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.domain.QuizAnswer;
 import ru.otus.homework.util.DataReader;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 public class QuizDaoImpl implements QuizDao {
     private final DataReader dataReader;
 
-    public List<Quiz> getQuizzes() {
+    public List<Quiz> getQuizzes() throws IOException {
         var lines = dataReader.readLines();
         return lines.stream()
                 .filter(line -> line.stream().findFirst().orElse("").trim().length() > 0)

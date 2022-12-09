@@ -2,6 +2,10 @@ package ru.otus.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.homework.enumeration.NoticeEnum;
+import ru.otus.homework.exception.FileNotFoundQuizException;
+import ru.otus.homework.exception.FileReadLineQuizException;
+import ru.otus.homework.exception.IOQuizException;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.QuizRunnerService;
 import ru.otus.homework.service.QuizService;
@@ -12,9 +16,6 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     private final QuizService quizService;
     private final IOService ioService;
 
-    private static final String MESSAGE_I_DONT_HAVE_QUESTIONS = "Sorry. I don't have questions.";
-    private static final String MESSAGE_FOR_UNHANDLED_EXCEPTION = "Sorry. Something went wrong.";
-
     @Override
     public void run() {
         try {
@@ -24,12 +25,16 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
                 quiz.getAnswers().forEach(answer -> ioService.outputString("  " + answer.getName()));
             });
             if (quizzes.isEmpty()) {
-                ioService.outputString(MESSAGE_I_DONT_HAVE_QUESTIONS);
+                ioService.outputString(NoticeEnum.I_DONT_HAVE_QUESTIONS.getNotice());
             }
-        } catch (RuntimeException e) {
-            ioService.outputString(e.getMessage());
+        } catch (FileNotFoundQuizException e) {
+            ioService.outputString(NoticeEnum.QUIZ_CSV_FILE_NOT_FOUND.getNotice());
+        } catch (IOQuizException e) {
+            ioService.outputString(NoticeEnum.QUIZ_CSV_FILE_PREPARATION_ERROR.getNotice());
+        } catch (FileReadLineQuizException e) {
+            ioService.outputString(NoticeEnum.QUIZ_CSV_FILE_READING_ERROR.getNotice());
         } catch (Exception e) {
-            ioService.outputString(MESSAGE_FOR_UNHANDLED_EXCEPTION);
+            ioService.outputString(NoticeEnum.UNHANDLED_EXCEPTION.getNotice());
         }
     }
 }

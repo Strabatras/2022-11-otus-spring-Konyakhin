@@ -3,6 +3,7 @@ package ru.otus.homework.util;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -39,7 +40,7 @@ class CsvFileDataReaderTest {
 
     @DisplayName("возвращает пустой ArrayList если разбираемый файл пуст")
     @Test
-    void shouldReturnEmptyArrayLisIfFileIsEmpty() {
+    void shouldReturnEmptyArrayLisIfFileIsEmpty() throws IOException {
         DataReader dataReader = new CsvFileDataReader(CSV_EMPTY_FILE);
         var lines = dataReader.readLines();
         assertEquals(CLASS_SIMPLE_NAME_ARRAY_LIST, lines.getClass().getSimpleName());
@@ -48,7 +49,7 @@ class CsvFileDataReaderTest {
 
     @DisplayName("возвращает не пустой ArrayList если разбираемый файл не пуст")
     @Test
-    void shouldReturnNotEmptyArrayLisIfFileIsNotEmpty() {
+    void shouldReturnNotEmptyArrayLisIfFileIsNotEmpty() throws IOException {
         DataReader dataReader = new CsvFileDataReader(CSV_CORRECT_QUIZZES_FILE);
         var lines = dataReader.readLines();
         assertEquals(CLASS_SIMPLE_NAME_ARRAY_LIST, lines.getClass().getSimpleName());
@@ -57,7 +58,7 @@ class CsvFileDataReaderTest {
 
     @DisplayName("возвращает корректно заполненный ArrayList для корректного файла с вопросами")
     @Test
-    void shouldReturnCorrectArrayListForCorrectQuizzesFile() {
+    void shouldReturnCorrectArrayListForCorrectQuizzesFile() throws IOException {
         List<List<String>> expected = expectedReadLinesForCorrectQuizzesFile();
         DataReader dataReader = new CsvFileDataReader(CSV_CORRECT_QUIZZES_FILE);
         var lines = dataReader.readLines();
