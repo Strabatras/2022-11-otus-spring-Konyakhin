@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.dao.QuizDao;
 import ru.otus.homework.domain.Quiz;
+import ru.otus.homework.exception.FileEmptyLineQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.FileReadLineQuizException;
 import ru.otus.homework.exception.IOQuizException;
@@ -27,6 +28,8 @@ public class QuizServiceImpl implements QuizService {
             throw new FileNotFoundQuizException(e.getMessage());
         } catch (IOException e) {
             throw new IOQuizException(e.getMessage());
+        } catch (FileEmptyLineQuizException e) {
+            throw new FileEmptyLineQuizException(e.getMessage());
         } catch (RuntimeException e) {
             throw new FileReadLineQuizException(e.getMessage());
         }

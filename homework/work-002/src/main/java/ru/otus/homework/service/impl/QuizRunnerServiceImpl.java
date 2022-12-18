@@ -3,6 +3,7 @@ package ru.otus.homework.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.enumeration.NoticeEnum;
+import ru.otus.homework.exception.FileEmptyLineQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.FileReadLineQuizException;
 import ru.otus.homework.exception.IOQuizException;
@@ -33,6 +34,8 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
             ioService.outputString(NoticeEnum.QUIZ_CSV_FILE_PREPARATION_ERROR.getNotice());
         } catch (FileReadLineQuizException e) {
             ioService.outputString(NoticeEnum.QUIZ_CSV_FILE_READING_ERROR.getNotice());
+        } catch (FileEmptyLineQuizException e) {
+            ioService.outputString(NoticeEnum.QUIZ_CSV_FILE_HAS_EMPTY_LINES_ERROR.getNotice());
         } catch (Exception e) {
             ioService.outputString(NoticeEnum.UNHANDLED_EXCEPTION.getNotice());
         }

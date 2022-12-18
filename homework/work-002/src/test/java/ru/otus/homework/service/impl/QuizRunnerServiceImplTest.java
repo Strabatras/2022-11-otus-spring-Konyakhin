@@ -7,6 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.otus.homework.exception.FileEmptyLineQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.FileReadLineQuizException;
 import ru.otus.homework.exception.IOQuizException;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static ru.otus.homework.DataFactory.MESSAGE_ANY_ERROR;
+import static ru.otus.homework.DataFactory.MESSAGE_CSV_FILE_HAS_EMPTY_LINES_ERROR_TO_USER;
 import static ru.otus.homework.DataFactory.MESSAGE_CSV_FILE_IS_NOT_FOUND_TO_USER;
 import static ru.otus.homework.DataFactory.MESSAGE_CSV_FILE_PREPARATION_ERROR_TO_USER;
 import static ru.otus.homework.DataFactory.MESSAGE_CSV_FILE_READING_ERROR_TO_USER;
@@ -90,5 +92,16 @@ class QuizRunnerServiceImplTest {
         var captor = ArgumentCaptor.forClass(String.class);
         verify(ioService, times(1)).outputString(captor.capture());
         assertEquals(MESSAGE_CSV_FILE_READING_ERROR_TO_USER, captor.getValue());
+    }
+
+    @DisplayName("вывод в консоль сообщения пользователю, о ошибке разбора csv файла")
+    @Test
+    void shouldOutputToUserMessageFileEmptyLineQuizException() throws QuizException {
+        given(quizService.getQuizzes()).willThrow(new FileEmptyLineQuizException(MESSAGE_ANY_ERROR));
+        quizRunnerService.run();
+        verify(quizService, times(1)).getQuizzes();
+        var captor = ArgumentCaptor.forClass(String.class);
+        verify(ioService, times(1)).outputString(captor.capture());
+        assertEquals(MESSAGE_CSV_FILE_HAS_EMPTY_LINES_ERROR_TO_USER, captor.getValue());
     }
 }

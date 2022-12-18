@@ -6,6 +6,7 @@ import ru.otus.homework.domain.QuizAnswer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataFactory {
     public static final String MESSAGE_I_DONT_HAVE_QUESTIONS = "Sorry. I don't have questions";
@@ -14,8 +15,10 @@ public class DataFactory {
     public static final String MESSAGE_CSV_FILE_IS_NOT_FOUND_TO_USER = "Sorry. The quiz CSV file is not found";
     public static final String MESSAGE_CSV_FILE_PREPARATION_ERROR_TO_USER = "Sorry. Quiz CSV file preparation error";
     public static final String MESSAGE_CSV_FILE_READING_ERROR_TO_USER = "Sorry. Quiz CSV file reading error";
+    public static final String MESSAGE_CSV_FILE_HAS_EMPTY_LINES_ERROR_TO_USER = "Sorry. Quiz CSV file has empty lines";
     public static final String MESSAGE_CSV_FILE_IS_NOT_FOUND = "File is not found";
     public static final String MESSAGE_CSV_FILE_IS_EMPTY_FOUND = "File name is empty";
+    public static final String MESSAGE_CSV_FILE_HAS_EMPTY_LINE = "File has empty lines";
     public static final String CLASS_SIMPLE_NAME_ARRAY_LIST = "ArrayList";
     public static final String CLASS_SIMPLE_NAME_QUIZ = "Quiz";
     public static final String CLASS_SIMPLE_NAME_QUIZ_ANSWER = "QuizAnswer";
@@ -26,6 +29,10 @@ public class DataFactory {
     public static final String CSV_EMPTY_FILE = "empty.csv";
     public static final String CSV_CORRECT_QUIZZES_FILE = "quizzes.csv";
     public static final String CSV_NON_EXISTENT_FILE = "non-existent.csv";
+
+    public static List<String> emptyListOfString(){
+        return new ArrayList<>();
+    }
 
     public static List<QuizAnswer> answers(String quizName, int quantity) {
         List<QuizAnswer> answers = new ArrayList<>();
@@ -62,6 +69,10 @@ public class DataFactory {
         ));
     }
 
+    public static List<String> preparedLineToQuizWithAnswers(){
+        return new ArrayList<>(Arrays.asList("R", "R1", "R2", "R3", "R4", "R5"));
+    }
+
     public static List<List<String>> expectedReadLinesForCorrectQuizzesFile() {
         return new ArrayList<>(Arrays.asList(
                 new ArrayList<>(Arrays.asList("A")),
@@ -70,5 +81,16 @@ public class DataFactory {
                 new ArrayList<>(Arrays.asList("D", "D1")),
                 new ArrayList<>(Arrays.asList("E", "E1", "E2"))
         ));
+    }
+
+    public static List<Quiz> expectedQuizzesFromReadLinesForCorrectQuizzesFile() {
+        List<List<String>> lines = expectedReadLinesForCorrectQuizzesFile();
+        return lines.stream()
+                .map(line -> {
+                    var answers = line.stream()
+                            .skip(1)
+                            .map(n -> new QuizAnswer(n, false)).collect(Collectors.toList());
+                    return new Quiz(line.get(0).trim(), answers);
+                }).collect(Collectors.toList());
     }
 }
