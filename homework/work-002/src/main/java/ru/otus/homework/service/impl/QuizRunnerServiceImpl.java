@@ -1,11 +1,13 @@
 package ru.otus.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.QuizRunnerService;
 import ru.otus.homework.service.QuizService;
 
 @RequiredArgsConstructor
+@Service
 public class QuizRunnerServiceImpl implements QuizRunnerService {
     private final QuizService quizService;
     private final IOService ioService;
