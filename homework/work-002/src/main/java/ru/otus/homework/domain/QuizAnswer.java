@@ -9,5 +9,4 @@ import lombok.Getter;
 @AllArgsConstructor
 public class QuizAnswer {
     private String name;
-    private boolean correct;
 }

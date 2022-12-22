@@ -3,6 +3,9 @@ package ru.otus.homework.util;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
+import ru.otus.homework.exception.IOQuizException;
+import ru.otus.homework.exception.IllegalArgumentQuizException;
+import ru.otus.homework.exception.LineValidationQuizException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,30 +20,30 @@ public class CsvFileDataReader implements DataReader {
 
     private InputStream fileFromResourceAsStream(String fileName) {
         if (fileName.isEmpty()) {
-            throw new IllegalArgumentException("The quiz CSV file name is empty");
+            throw new IllegalArgumentQuizException("File name is empty");
         }
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);
         if (inputStream == null) {
-            throw new IllegalArgumentException("The quiz CSV file is not found");
-        } else {
-            return inputStream;
+            throw new IllegalArgumentQuizException("File not found");
         }
+        return inputStream;
     }
 
     private List<List<String>> prepareData() {
         final List<List<String>> records = new ArrayList<>();
-        final InputStream inputStream = fileFromResourceAsStream(fileName);
-        try (InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-             CSVReader csvReader = new CSVReader(inputStreamReader)) {
+
+        try (final InputStream inputStream = fileFromResourceAsStream(fileName);
+             final InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+             final CSVReader csvReader = new CSVReader(inputStreamReader)) {
             String[] values;
             while ((values = csvReader.readNext()) != null) {
                 records.add(Arrays.asList(values));
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Quiz CSV file reading error");
         } catch (CsvValidationException e) {
-            throw new RuntimeException("Quiz CSV file preparation error");
+            throw new LineValidationQuizException("Line reading error", e);
+        } catch (IOException e) {
+            throw new IOQuizException("Read data error", e);
         }
         return records;
     }

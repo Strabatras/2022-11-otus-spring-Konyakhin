@@ -13,8 +13,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     private static final String MESSAGE_I_DONT_HAVE_QUESTIONS = "Sorry. I don't have questions.";
     private static final String MESSAGE_FOR_UNHANDLED_EXCEPTION = "Sorry. Something went wrong.";
 
-    @Override
-    public void run() {
+    private void runQuizzes() {
         try {
             final var quizzes = quizService.getQuizzes();
             quizzes.forEach(quiz -> {
@@ -29,5 +28,10 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
         } catch (Exception e) {
             ioService.outputString(MESSAGE_FOR_UNHANDLED_EXCEPTION);
         }
+    }
+
+    @Override
+    public void run() {
+        runQuizzes();
     }
 }

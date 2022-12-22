@@ -2,6 +2,7 @@ package ru.otus.homework.util;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.homework.exception.IllegalArgumentQuizException;
 
 import java.util.List;
 
@@ -21,19 +22,19 @@ import static ru.otus.homework.DataFactory.expectedReadLinesForCorrectQuizzesFil
 @DisplayName("Разбор csv файлов")
 class CsvFileDataReaderTest {
 
-    @DisplayName("выбрасывает конкретное исключение 'IllegalArgumentException' если имя файла пустое")
+    @DisplayName("выбрасывает конкретное исключение 'IllegalArgumentQuizException' если имя файла пустое")
     @Test
     void shouldReturnIllegalArgumentExceptionForEmptyFileName() {
         DataReader dataReader = new CsvFileDataReader(CSV_EMPTY_NAME_OF_FILE);
-        var exception = assertThrows(IllegalArgumentException.class, () -> dataReader.readLines());
+        var exception = assertThrows(IllegalArgumentQuizException.class, () -> dataReader.readLines());
         assertEquals(MESSAGE_CSV_FILE_IS_EMPTY_FOUND, exception.getMessage());
     }
 
-    @DisplayName("выбрасывает конкретное исключение 'IllegalArgumentException' если указано имя несуществующего файла")
+    @DisplayName("выбрасывает конкретное исключение 'IllegalArgumentQuizException' если указано имя несуществующего файла")
     @Test
     void shouldReturnIllegalArgumentExceptionForWrongFileName() {
         DataReader dataReader = new CsvFileDataReader(CSV_NON_EXISTENT_FILE);
-        var exception = assertThrows(IllegalArgumentException.class, () -> dataReader.readLines());
+        var exception = assertThrows(IllegalArgumentQuizException.class, () -> dataReader.readLines());
         assertEquals(MESSAGE_CSV_FILE_IS_NOT_FOUND, exception.getMessage());
     }
 
