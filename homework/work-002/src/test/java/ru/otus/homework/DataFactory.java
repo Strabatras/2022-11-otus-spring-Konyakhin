@@ -22,6 +22,8 @@ public class DataFactory {
     public static final String CSV_EMPTY_FILE = "empty.csv";
     public static final String CSV_CORRECT_QUIZZES_FILE = "quizzes.csv";
     public static final String CSV_NON_EXISTENT_FILE = "non-existent.csv";
+    public static final String INTERVIEWEE_NAME = "INTERVIEWEE_NAME";
+    public static final String INTERVIEWEE_SURNAME = "INTERVIEWEE_SURNAME";
 
     public static List<QuizAnswer> answers(String quizName, int quantity) {
         List<QuizAnswer> answers = new ArrayList<>();

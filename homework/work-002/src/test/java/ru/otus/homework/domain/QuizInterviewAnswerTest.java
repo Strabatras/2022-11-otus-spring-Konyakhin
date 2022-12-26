@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.otus.homework.DataFactory.QUIZ_ANSWER_NAME;
 
 @DisplayName("Ответ на вопрос")
-class QuizAnswerTest {
+class QuizInterviewAnswerTest {
 
     @DisplayName("корректно возвращается название ответа")
     @Test
