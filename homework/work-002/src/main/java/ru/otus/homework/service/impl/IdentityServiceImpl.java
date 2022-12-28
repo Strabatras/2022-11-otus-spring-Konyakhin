@@ -8,7 +8,9 @@ import ru.otus.homework.service.IdentityService;
 @RequiredArgsConstructor
 @Service
 public class IdentityServiceImpl implements IdentityService {
+
     private final IOService ioService;
+
     @Override
     public String askName() {
         ioService.outputString("Name:");

@@ -5,8 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.otus.homework.DataFactory.INTERVIEWEE_NAME;
-import static ru.otus.homework.DataFactory.INTERVIEWEE_SURNAME;
+import static ru.otus.homework.DataFactory.PERSONALITY_NAME;
+import static ru.otus.homework.DataFactory.PERSONALITY_SURNAME;
+import static ru.otus.homework.DataFactory.personality;
 
 @DisplayName("Персона")
 class PersonalityTest {
@@ -15,18 +16,18 @@ class PersonalityTest {
 
     @BeforeEach
     void SetUp() {
-       personality = new Personality(INTERVIEWEE_NAME, INTERVIEWEE_SURNAME);
+       personality = personality();
     }
 
     @DisplayName("корректно возвращается имя персоны")
     @Test
     void shouldReturnCorrectName() {
-        assertThat(personality.getName()).isEqualTo(INTERVIEWEE_NAME);
+        assertThat(personality.getName()).isEqualTo(PERSONALITY_NAME);
     }
 
     @DisplayName("корректно возвращается фамилия персоны")
     @Test
     void shouldReturnCorrectSurname() {
-        assertThat(personality.getSurname()).isEqualTo(INTERVIEWEE_SURNAME);
+        assertThat(personality.getSurname()).isEqualTo(PERSONALITY_SURNAME);
     }
 }

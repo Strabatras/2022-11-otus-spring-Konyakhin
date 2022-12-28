@@ -30,20 +30,20 @@ public class InterviewResultServiceImpl implements InterviewResultService {
         int interviewCorrectAnswerCount = 0;
         int quizzesWithCorrectAnswerCount = 0;
 
-        for(InterviewQuestionAnswer interviewQuestionAnswer : interviewQuestionAnswerList){
-            if (interviewQuestionAnswer.getQuiz().getCorrectAnswers().size() > 0){
+        for (InterviewQuestionAnswer interviewQuestionAnswer : interviewQuestionAnswerList) {
+            if (interviewQuestionAnswer.getQuiz().getCorrectAnswers().size() > 0) {
                 quizzesWithCorrectAnswerCount++;
             }
             String interviewAnswer = interviewQuestionAnswer.getInterviewAnswer().getAnswer();
             if (isNotEmpty(interviewAnswer) && isNotBlank(interviewAnswer)) {
-                if (hasQuizCorrectAnswer(interviewQuestionAnswer.getQuiz(), interviewAnswer.trim())){
+                if (hasQuizCorrectAnswer(interviewQuestionAnswer.getQuiz(), interviewAnswer.trim())) {
                     interviewCorrectAnswerCount++;
                 }
                 interviewAnswerCount++;
             }
         }
         ioService.outputString(
-                    format("You have answered %s of %s questions.", interviewAnswerCount, interviewQuestionAnswerList.size())
+                format("You have answered %s of %s questions.", interviewAnswerCount, interviewQuestionAnswerList.size())
         );
         ioService.outputString(
                 format("Questions with possibility of correct answers - %s. Correct answers - %s.", quizzesWithCorrectAnswerCount, interviewCorrectAnswerCount)

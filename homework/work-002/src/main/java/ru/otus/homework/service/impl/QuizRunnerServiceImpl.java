@@ -6,8 +6,9 @@ import ru.otus.homework.domain.Interview;
 import ru.otus.homework.domain.Personality;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.exception.EmptyDataQuizException;
+import ru.otus.homework.exception.EmptyFileNameQuizException;
+import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.IOQuizException;
-import ru.otus.homework.exception.IllegalArgumentQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.IdentityService;
@@ -72,7 +73,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
 
             interviewResultService.printStatistic(interview);
 
-        } catch (IllegalArgumentQuizException e) {
+        } catch (EmptyFileNameQuizException | FileNotFoundQuizException e) {
             // TODO add to app log
             ioService.outputString(MESSAGE_APPLICATION_CONFIGURATION_ERROR);
         } catch (LineValidationQuizException e) {

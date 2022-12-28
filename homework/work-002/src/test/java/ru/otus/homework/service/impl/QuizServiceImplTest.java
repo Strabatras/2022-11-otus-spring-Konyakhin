@@ -10,9 +10,10 @@ import ru.otus.homework.dao.QuizDao;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.domain.QuizAnswer;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.Mockito.when;
@@ -32,19 +33,15 @@ class QuizServiceImplTest {
         when(quizDao.getQuizData()).thenReturn(expectedReadLinesForCorrectQuizzesFile());
         assertThat(quizService.getQuizzes())
                 .extracting(Quiz::getName,
-                        answers -> {
-                            return answers.getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList());
-                        },
-                        correctAnswers -> {
-                            return correctAnswers.getCorrectAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList());
-                        }
+                        answers -> answers.getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
+                        correctAnswers -> correctAnswers.getCorrectAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList())
                 )
                 .containsExactly(
-                        tuple("A", Arrays.asList(), Arrays.asList("15")),
-                        tuple("B", Arrays.asList("B1", "B2", "B3"), Arrays.asList()),
-                        tuple("C", Arrays.asList("C1", "C2", "C3", "C4", "C5"), Arrays.asList("C2", "C4")),
-                        tuple("D", Arrays.asList("D1"), Arrays.asList()),
-                        tuple("E", Arrays.asList("E1", "E2"), Arrays.asList())
+                        tuple("A", List.of(), List.of("15")),
+                        tuple("B", asList("B1", "B2", "B3"), List.of()),
+                        tuple("C", asList("C1", "C2", "C3", "C4", "C5"), asList("C2", "C4")),
+                        tuple("D", List.of("D1"), List.of()),
+                        tuple("E", asList("E1", "E2"), List.of())
                 )
         ;
     }

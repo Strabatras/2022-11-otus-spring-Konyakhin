@@ -1,7 +1,6 @@
 package ru.otus.homework.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import ru.otus.homework.service.InputService;
 
 import java.io.InputStream;

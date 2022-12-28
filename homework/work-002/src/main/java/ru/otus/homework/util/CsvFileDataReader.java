@@ -3,8 +3,9 @@ package ru.otus.homework.util;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
+import ru.otus.homework.exception.EmptyFileNameQuizException;
+import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.IOQuizException;
-import ru.otus.homework.exception.IllegalArgumentQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
 
 import java.io.IOException;
@@ -20,12 +21,12 @@ public class CsvFileDataReader implements DataReader {
 
     private InputStream fileFromResourceAsStream(String fileName) {
         if (fileName.isEmpty()) {
-            throw new IllegalArgumentQuizException("File name is empty");
+            throw new EmptyFileNameQuizException("File name is empty");
         }
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);
         if (inputStream == null) {
-            throw new IllegalArgumentQuizException("File not found");
+            throw new FileNotFoundQuizException("File not found");
         }
         return inputStream;
     }
@@ -34,7 +35,7 @@ public class CsvFileDataReader implements DataReader {
         final List<List<String>> records = new ArrayList<>();
 
         try (final InputStream inputStream = fileFromResourceAsStream(fileName);
-             final InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+             final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
              final CSVReader csvReader = new CSVReader(inputStreamReader)) {
             String[] values;
             while ((values = csvReader.readNext()) != null) {
