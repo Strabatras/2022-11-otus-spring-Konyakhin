@@ -17,10 +17,6 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getQuizzes() {
-        return quizDao.getQuizData()
-                .stream()
-                .map(RowPreparation::rowToQuiz)
-                .collect(Collectors.toList());
-
+        return quizDao.getQuizzes();
     }
 }
