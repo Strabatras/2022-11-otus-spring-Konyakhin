@@ -10,29 +10,30 @@ import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.IOQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
+import ru.otus.homework.factory.InterviewFactory;
+import ru.otus.homework.factory.InterviewQuestionAnswerFactory;
+import ru.otus.homework.factory.PersonalityFactory;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.IdentityService;
-import ru.otus.homework.service.InterviewAnswerService;
-import ru.otus.homework.service.InterviewQuestionAnswerService;
 import ru.otus.homework.service.InterviewResultService;
-import ru.otus.homework.service.InterviewService;
-import ru.otus.homework.service.PersonalityService;
 import ru.otus.homework.service.QuizRunnerService;
 import ru.otus.homework.service.QuizService;
 
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @RequiredArgsConstructor
 @Service
 public class QuizRunnerServiceImpl implements QuizRunnerService {
     private final QuizService quizService;
     private final IOService ioService;
-    private final InterviewService interviewService;
-    private final InterviewQuestionAnswerService interviewQuestionAnswerService;
-    private final InterviewAnswerService interviewAnswerService;
     private final IdentityService identityService;
-    private final PersonalityService personalityService;
     private final InterviewResultService interviewResultService;
+    private final PersonalityFactory personalityFactory;
+    private final InterviewFactory interviewFactory;
+    private final InterviewQuestionAnswerFactory interviewQuestionAnswerFactory;
 
     private static final String MESSAGE_I_DONT_HAVE_QUESTIONS = "Sorry. I don't have questions.";
     private static final String MESSAGE_APPLICATION_CONFIGURATION_ERROR = "Sorry. Application configuration error.";
@@ -44,7 +45,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
         ioService.outputString("Identify yourself please.");
         String name = identityService.askName();
         String surname = identityService.askSurname();
-        return personalityService.createPersonality(name, surname);
+        return personalityFactory.createPersonality(name, surname);
     }
 
     @Override
@@ -59,15 +60,18 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
 
             final Personality personality = personality();
             ioService.outputString("\n");
-            final Interview interview = interviewService.createInterview(personality);
+            final Interview interview = interviewFactory.createInterview(personality);
 
             quizzes.forEach(quiz -> {
                 ioService.outputString(quiz.getName() + ":");
-                quiz.getAnswers().forEach(answer -> ioService.outputString("  -" + answer.getName()));
-                String interviewAnswer = ioService.readString();
+                quiz.getAnswers().forEach(answer -> {
+                    if (isNotEmpty(answer.getName()) && isNotBlank(answer.getName())) {
+                        ioService.outputString("  -" + answer.getName());
+                    }
+                });
                 interview.setQuestionAnswer(
-                        interviewQuestionAnswerService
-                                .createInterviewQuestionAnswer(quiz, interviewAnswerService.createInterviewAnswer(interviewAnswer))
+                        interviewQuestionAnswerFactory
+                                .createInterviewQuestionAnswer(quiz, ioService.readString())
                 );
             });
 

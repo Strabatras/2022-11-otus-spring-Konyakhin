@@ -9,5 +9,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InterviewQuestionAnswer {
     private final Quiz quiz;
-    private final InterviewAnswer interviewAnswer;
+    private final String interviewAnswer;
 }

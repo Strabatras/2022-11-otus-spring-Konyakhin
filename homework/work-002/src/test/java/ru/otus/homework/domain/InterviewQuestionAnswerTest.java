@@ -11,25 +11,21 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.otus.homework.DataFactory.INTERVIEW_ANSWER;
 import static ru.otus.homework.DataFactory.correctQuizWithAnswers;
-import static ru.otus.homework.DataFactory.interviewAnswer;
-
 
 @DisplayName("Опрос вопросы/ответ")
 class InterviewQuestionAnswerTest {
 
     private Quiz quiz;
-    private InterviewAnswer interviewAnswer;
 
     @BeforeEach
     void SetUp() {
         quiz = correctQuizWithAnswers();
-        interviewAnswer = interviewAnswer();
     }
 
     @DisplayName("возвращается корректный вопрос со списком правильных и вариантов ответов")
     @Test
     void shouldReturnCorrectQuiz() {
-        InterviewQuestionAnswer interviewQuestionAnswer = new InterviewQuestionAnswer(quiz, interviewAnswer);
+        InterviewQuestionAnswer interviewQuestionAnswer = new InterviewQuestionAnswer(quiz, INTERVIEW_ANSWER);
         assertThat(interviewQuestionAnswer.getQuiz())
                 .extracting(Quiz::getName,
                         toQuizAnswers -> toQuizAnswers.getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
@@ -45,8 +41,8 @@ class InterviewQuestionAnswerTest {
     @DisplayName("возвращается корректный текст ответа опроса")
     @Test
     void shouldReturnCorrectInterviewAnswer() {
-        InterviewQuestionAnswer interviewQuestionAnswer = new InterviewQuestionAnswer(quiz, interviewAnswer);
-        assertThat(interviewQuestionAnswer.getInterviewAnswer().getAnswer())
+        InterviewQuestionAnswer interviewQuestionAnswer = new InterviewQuestionAnswer(quiz, INTERVIEW_ANSWER);
+        assertThat(interviewQuestionAnswer.getInterviewAnswer())
                 .isEqualTo(INTERVIEW_ANSWER);
     }
 }

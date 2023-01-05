@@ -1,6 +1,5 @@
 package ru.otus.homework;
 
-import ru.otus.homework.domain.InterviewAnswer;
 import ru.otus.homework.domain.InterviewQuestionAnswer;
 import ru.otus.homework.domain.Personality;
 import ru.otus.homework.domain.Quiz;
@@ -74,17 +73,13 @@ public class DataFactory {
         List<Quiz> quizzes = quizzesWithAnswers();
         for (Quiz quiz : quizzes){
             interviewQuestionAnswers.add(
-                    new InterviewQuestionAnswer(quiz, new InterviewAnswer(INTERVIEW_ANSWER + " " + quiz.getName()))
+                    new InterviewQuestionAnswer(quiz, INTERVIEW_ANSWER + " " + quiz.getName())
             );
         }
         return interviewQuestionAnswers;
     }
 
-    public static InterviewAnswer interviewAnswer(){
-        return new InterviewAnswer(INTERVIEW_ANSWER);
-    }
-
     public static InterviewQuestionAnswer interviewQuestionAnswer(){
-        return new InterviewQuestionAnswer(correctQuizWithAnswers(), interviewAnswer());
+        return new InterviewQuestionAnswer(correctQuizWithAnswers(), INTERVIEW_ANSWER);
     }
 }

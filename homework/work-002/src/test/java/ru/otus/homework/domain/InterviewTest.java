@@ -44,7 +44,7 @@ class InterviewTest {
                                 .map(QuizAnswer::getCorrectAnswer)
                                 .filter(Objects::nonNull)
                                 .collect(Collectors.toList()),
-                        toInterviewAnswer -> toInterviewAnswer.getInterviewAnswer().getAnswer()
+                        InterviewQuestionAnswer::getInterviewAnswer
                 )
                 .containsExactly(tuple("Q", asList("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"), asList("Q2", "Q4", "Q6"), "Interview Answer"));
     }
@@ -69,7 +69,7 @@ class InterviewTest {
                                 .map(QuizAnswer::getCorrectAnswer)
                                 .filter(Objects::nonNull)
                                 .collect(Collectors.toList()),
-                        toInterviewAnswer -> toInterviewAnswer.getInterviewAnswer().getAnswer()
+                        InterviewQuestionAnswer::getInterviewAnswer
                 )
                 .containsExactly(
                         tuple("A", asList("A1", "A2", "A3"), List.of("A2"), "Interview Answer A"),

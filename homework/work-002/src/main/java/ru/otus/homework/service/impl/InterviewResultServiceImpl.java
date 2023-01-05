@@ -35,9 +35,8 @@ public class InterviewResultServiceImpl implements InterviewResultService {
             if (hasQuizCorrectAnswer(interviewQuestionAnswer.getQuiz())) {
                 quizzesWithCorrectAnswerCount++;
             }
-            String interviewAnswer = interviewQuestionAnswer.getInterviewAnswer().getAnswer();
-            if (isNotEmpty(interviewAnswer) && isNotBlank(interviewAnswer)) {
-                if (isQuizCorrectAnswer(interviewQuestionAnswer.getQuiz(), interviewAnswer.trim())) {
+            if (isNotEmpty(interviewQuestionAnswer.getInterviewAnswer()) && isNotBlank(interviewQuestionAnswer.getInterviewAnswer())) {
+                if (isQuizCorrectAnswer(interviewQuestionAnswer.getQuiz(), interviewQuestionAnswer.getInterviewAnswer().trim())) {
                     interviewCorrectAnswerCount++;
                 }
                 interviewAnswerCount++;
