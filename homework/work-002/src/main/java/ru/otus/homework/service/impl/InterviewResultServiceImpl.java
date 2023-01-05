@@ -14,6 +14,7 @@ import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static ru.otus.homework.util.InterviewStatistic.hasQuizCorrectAnswer;
+import static ru.otus.homework.util.InterviewStatistic.isQuizCorrectAnswer;
 
 @RequiredArgsConstructor
 @Service
@@ -31,12 +32,12 @@ public class InterviewResultServiceImpl implements InterviewResultService {
         int quizzesWithCorrectAnswerCount = 0;
 
         for (InterviewQuestionAnswer interviewQuestionAnswer : interviewQuestionAnswerList) {
-            if (interviewQuestionAnswer.getQuiz().getCorrectAnswers().size() > 0) {
+            if (hasQuizCorrectAnswer(interviewQuestionAnswer.getQuiz())) {
                 quizzesWithCorrectAnswerCount++;
             }
             String interviewAnswer = interviewQuestionAnswer.getInterviewAnswer().getAnswer();
             if (isNotEmpty(interviewAnswer) && isNotBlank(interviewAnswer)) {
-                if (hasQuizCorrectAnswer(interviewQuestionAnswer.getQuiz(), interviewAnswer.trim())) {
+                if (isQuizCorrectAnswer(interviewQuestionAnswer.getQuiz(), interviewAnswer.trim())) {
                     interviewCorrectAnswerCount++;
                 }
                 interviewAnswerCount++;

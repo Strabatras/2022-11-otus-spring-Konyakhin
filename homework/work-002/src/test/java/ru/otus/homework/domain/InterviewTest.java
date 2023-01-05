@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
@@ -39,10 +40,13 @@ class InterviewTest {
                 .hasSize(1)
                 .extracting(toQuizName -> toQuizName.getQuiz().getName(),
                         toQuizAnswers -> toQuizAnswers.getQuiz().getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
-                        toQuizCorrectAnswers -> toQuizCorrectAnswers.getQuiz().getCorrectAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
+                        toQuizCorrectAnswers -> toQuizCorrectAnswers.getQuiz().getAnswers().stream()
+                                .map(QuizAnswer::getCorrectAnswer)
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList()),
                         toInterviewAnswer -> toInterviewAnswer.getInterviewAnswer().getAnswer()
                 )
-                .containsExactly(tuple("Q", asList("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"), asList("Q3", "Q5", "Q6"), "Interview Answer"));
+                .containsExactly(tuple("Q", asList("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"), asList("Q2", "Q4", "Q6"), "Interview Answer"));
     }
 
     @DisplayName("возвращаются корректные данные опрашиваемого")
@@ -61,13 +65,16 @@ class InterviewTest {
         assertThat(interview.getInterviewQuestionAnswers())
                 .extracting(toQuizName -> toQuizName.getQuiz().getName(),
                         toQuizAnswers -> toQuizAnswers.getQuiz().getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
-                        toQuizCorrectAnswers -> toQuizCorrectAnswers.getQuiz().getCorrectAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
+                        toQuizCorrectAnswers -> toQuizCorrectAnswers.getQuiz().getAnswers().stream()
+                                .map(QuizAnswer::getCorrectAnswer)
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList()),
                         toInterviewAnswer -> toInterviewAnswer.getInterviewAnswer().getAnswer()
                 )
                 .containsExactly(
                         tuple("A", asList("A1", "A2", "A3"), List.of("A2"), "Interview Answer A"),
-                        tuple("B", asList("B1", "B2", "B3", "B4", "B5"), asList("B1", "B3"), "Interview Answer B"),
-                        tuple("C", asList("C1", "C2", "C3", "C4", "C5", "C6", "C7"), asList("C2", "C5", "C7"), "Interview Answer C"),
+                        tuple("B", asList("B1", "B2", "B3", "B4", "B5"), asList("B2", "B4"), "Interview Answer B"),
+                        tuple("C", asList("C1", "C2", "C3", "C4", "C5", "C6", "C7"), asList("C2", "C4", "C6"), "Interview Answer C"),
                         tuple("D", List.of(), List.of(), "Interview Answer D"),
                         tuple("E", List.of("E1"), List.of(), "Interview Answer E")
                 );

@@ -33,31 +33,22 @@ public class DataFactory {
     public static List<QuizAnswer> answers(String quizName, int quantity) {
         List<QuizAnswer> answers = new ArrayList<>();
         for (int i = 1; i <= quantity; i++) {
-            answers.add(new QuizAnswer(quizName + i));
+            QuizAnswer quizAnswer = new QuizAnswer(quizName + i);
+            if(i%2 == 0) {
+                quizAnswer.setCorrectAnswer(quizName+i);
+            }
+            answers.add(quizAnswer);
         }
         return answers;
-    }
-
-    public static List<QuizAnswer> correctAnswers(String quizName, int... numbers) {
-        List<QuizAnswer> answers = new ArrayList<>();
-        for (int number : numbers) {
-            answers.add(new QuizAnswer(quizName + number));
-        }
-        return answers;
-    }
-
-
-    public static List<QuizAnswer> correctAnswersEmptyList() {
-        return new ArrayList<>();
     }
 
     public static List<Quiz> quizzesWithAnswers() {
         List<Quiz> quizzes = new ArrayList<>();
-        quizzes.add(new Quiz("A", answers("A", 3), correctAnswers("A", 2)));
-        quizzes.add(new Quiz("B", answers("B", 5), correctAnswers("B", 1, 3)));
-        quizzes.add(new Quiz("C", answers("C", 7), correctAnswers("C", 2, 5, 7)));
-        quizzes.add(new Quiz("D", answers("D", 0), correctAnswersEmptyList()));
-        quizzes.add(new Quiz("E", answers("E", 1), correctAnswersEmptyList()));
+        quizzes.add(new Quiz("A", answers("A", 3)));
+        quizzes.add(new Quiz("B", answers("B", 5)));
+        quizzes.add(new Quiz("C", answers("C", 7)));
+        quizzes.add(new Quiz("D", answers("D", 0)));
+        quizzes.add(new Quiz("E", answers("E", 1)));
         return quizzes;
     }
 
@@ -72,7 +63,7 @@ public class DataFactory {
     }
 
     public static Quiz correctQuizWithAnswers(){
-        return new Quiz("Q", answers("Q", 7), correctAnswers("Q", 3, 5, 6));
+        return new Quiz("Q", answers("Q", 7));
     }
 
     public static Personality personality(){

@@ -12,5 +12,4 @@ import java.util.List;
 public class Quiz {
     private final String name;
     private final List<QuizAnswer> answers;
-    private final List<QuizAnswer> correctAnswers;
 }

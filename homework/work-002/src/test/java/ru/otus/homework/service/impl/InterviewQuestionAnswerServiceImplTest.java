@@ -11,6 +11,7 @@ import ru.otus.homework.domain.InterviewQuestionAnswer;
 import ru.otus.homework.domain.QuizAnswer;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,10 +40,13 @@ class InterviewQuestionAnswerServiceImplTest {
         assertThat(interviewQuestionAnswerService.createInterviewQuestionAnswer(any(), any()))
                 .extracting(toQuizName -> toQuizName.getQuiz().getName(),
                         toQuizAnswers -> toQuizAnswers.getQuiz().getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
-                        toQuizCorrectAnswers -> toQuizCorrectAnswers.getQuiz().getCorrectAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
+                        toQuizCorrectAnswers -> toQuizCorrectAnswers.getQuiz().getAnswers().stream()
+                                .map(QuizAnswer::getCorrectAnswer)
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList()),
                         toInterviewAnswer -> toInterviewAnswer.getInterviewAnswer().getAnswer()
                 )
-                .containsExactly("Q", Arrays.asList("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"), Arrays.asList("Q3", "Q5", "Q6"), "Interview Answer");
+                .containsExactly("Q", Arrays.asList("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"), Arrays.asList("Q2", "Q4", "Q6"), "Interview Answer");
         verify(interviewQuestionAnswerDao, times(1)).createInterviewQuestionAnswer(any(), any());
     }
 }

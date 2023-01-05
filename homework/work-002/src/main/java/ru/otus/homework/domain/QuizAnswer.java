@@ -1,12 +1,13 @@
 package ru.otus.homework.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@Builder
-@AllArgsConstructor
+@Setter
+@RequiredArgsConstructor
 public class QuizAnswer {
-    private String name;
+    private final String name;
+    private String correctAnswer;
 }

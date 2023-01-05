@@ -11,6 +11,7 @@ import ru.otus.homework.domain.QuizAnswer;
 import ru.otus.homework.util.DataReader;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
@@ -31,15 +32,18 @@ class QuizDaoImplTest {
 
     @DisplayName("возвращается корректный список строк")
     @Test
-    void shouldReturnCorrectRowList(){
+    void shouldReturnCorrectRowList() {
         when(dataReader.readLines()).thenReturn(expectedReadLinesForCorrectQuizzesFile());
         assertThat(quizDao.getQuizzes())
                 .extracting(Quiz::getName,
                         answers -> answers.getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
-                        correctAnswers -> correctAnswers.getCorrectAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList())
+                        correctAnswers -> correctAnswers.getAnswers().stream()
+                                .map(QuizAnswer::getCorrectAnswer)
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList())
                 )
                 .containsExactly(
-                        tuple("A", List.of(), List.of("15")),
+                        tuple("A", List.of(""), List.of("15")),
                         tuple("B", asList("B1", "B2", "B3"), List.of()),
                         tuple("C", asList("C1", "C2", "C3", "C4", "C5"), asList("C2", "C4")),
                         tuple("D", List.of("D1"), List.of()),

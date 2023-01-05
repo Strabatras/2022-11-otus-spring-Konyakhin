@@ -9,6 +9,7 @@ import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.domain.QuizAnswer;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,8 +43,11 @@ class InterviewQuestionAnswerDaoImplTest {
         assertThat(interviewQuestionAnswer.getQuiz())
                 .extracting(Quiz::getName,
                         toQuizAnswers -> toQuizAnswers.getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
-                        toQuizCorrectAnswers -> toQuizCorrectAnswers.getCorrectAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList())
+                        toQuizCorrectAnswers -> toQuizCorrectAnswers.getAnswers().stream()
+                                .map(QuizAnswer::getCorrectAnswer)
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList())
                 )
-                .containsExactly("Q", Arrays.asList("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"), Arrays.asList("Q3", "Q5", "Q6"));
+                .containsExactly("Q", Arrays.asList("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"), Arrays.asList("Q2", "Q4", "Q6"));
     }
 }

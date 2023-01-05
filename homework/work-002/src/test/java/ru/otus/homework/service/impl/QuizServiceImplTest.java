@@ -11,6 +11,7 @@ import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.domain.QuizAnswer;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
@@ -38,12 +39,15 @@ class QuizServiceImplTest {
         assertThat(quizService.getQuizzes())
                 .extracting(Quiz::getName,
                         answers -> answers.getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
-                        correctAnswers -> correctAnswers.getCorrectAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList())
+                        correctAnswers -> correctAnswers.getAnswers().stream()
+                                .map(QuizAnswer::getCorrectAnswer)
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList())
                 )
                 .containsExactly(
                         tuple("A", asList("A1", "A2", "A3"), List.of("A2")),
-                        tuple("B", asList("B1", "B2", "B3", "B4", "B5"), asList("B1", "B3")),
-                        tuple("C", asList("C1", "C2", "C3", "C4", "C5", "C6", "C7"), asList("C2", "C5", "C7")),
+                        tuple("B", asList("B1", "B2", "B3", "B4", "B5"), asList("B2", "B4")),
+                        tuple("C", asList("C1", "C2", "C3", "C4", "C5", "C6", "C7"), asList("C2", "C4", "C6")),
                         tuple("D", List.of(), List.of()),
                         tuple("E", asList("E1"), List.of())
                 );
