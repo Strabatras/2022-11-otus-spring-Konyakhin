@@ -19,6 +19,11 @@ import java.util.List;
 public class CsvFileDataReader implements DataReader {
     private final String fileName;
 
+    @Override
+    public List<List<String>> readLines() {
+        return prepareData();
+    }
+
     private InputStream fileFromResourceAsStream(String fileName) {
         if (fileName.isEmpty()) {
             throw new EmptyFileNameQuizException("File name is empty");
@@ -47,10 +52,5 @@ public class CsvFileDataReader implements DataReader {
             throw new IOQuizException("Read data error", e);
         }
         return records;
-    }
-
-    @Override
-    public List<List<String>> readLines() {
-        return prepareData();
     }
 }

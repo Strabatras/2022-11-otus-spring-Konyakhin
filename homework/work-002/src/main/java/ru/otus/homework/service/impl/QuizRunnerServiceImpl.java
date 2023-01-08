@@ -27,13 +27,6 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @RequiredArgsConstructor
 @Service
 public class QuizRunnerServiceImpl implements QuizRunnerService {
-    private final QuizService quizService;
-    private final IOService ioService;
-    private final IdentityService identityService;
-    private final InterviewResultService interviewResultService;
-    private final PersonalityFactory personalityFactory;
-    private final InterviewFactory interviewFactory;
-    private final InterviewQuestionAnswerFactory interviewQuestionAnswerFactory;
 
     private static final String MESSAGE_I_DONT_HAVE_QUESTIONS = "Sorry. I don't have questions.";
     private static final String MESSAGE_APPLICATION_CONFIGURATION_ERROR = "Sorry. Application configuration error.";
@@ -41,12 +34,13 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     private static final String MESSAGE_ERROR_READING_DATA = "Sorry. Error reading data with questions.";
     private static final String MESSAGE_FOR_UNHANDLED_EXCEPTION = "Sorry. Something went wrong.";
 
-    private Personality personality(){
-        ioService.outputString("Identify yourself please.");
-        String name = identityService.askName();
-        String surname = identityService.askSurname();
-        return personalityFactory.createPersonality(name, surname);
-    }
+    private final QuizService quizService;
+    private final IOService ioService;
+    private final IdentityService identityService;
+    private final InterviewResultService interviewResultService;
+    private final PersonalityFactory personalityFactory;
+    private final InterviewFactory interviewFactory;
+    private final InterviewQuestionAnswerFactory interviewQuestionAnswerFactory;
 
     @Override
     public void run() {
@@ -93,5 +87,12 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
             // TODO add to app log
             ioService.outputString(MESSAGE_FOR_UNHANDLED_EXCEPTION);
         }
+    }
+
+    private Personality personality(){
+        ioService.outputString("Identify yourself please.");
+        String name = identityService.askName();
+        String surname = identityService.askSurname();
+        return personalityFactory.createPersonality(name, surname);
     }
 }

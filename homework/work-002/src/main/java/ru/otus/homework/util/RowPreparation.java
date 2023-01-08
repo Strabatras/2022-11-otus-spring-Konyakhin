@@ -14,6 +14,18 @@ public class RowPreparation {
         return CollectionUtils.isNotEmpty(row) && StringUtils.isNotBlank(row.get(0));
     }
 
+    public static Quiz rowToQuiz(List<String> row) {
+        if (!isNotEmptyRow(row)) {
+            throw new LineValidationQuizException("Data has empty lines");
+        }
+        final List<QuizAnswer> answers = row.stream()
+                .skip(1)
+                .filter(StringUtils::isNotBlank)
+                .map(RowPreparation::rowToQuizAnswer)
+                .collect(Collectors.toList());
+        return new Quiz(row.get(0).trim(), answers);
+    }
+
     private static String correctAnswer(String answer, QuizAnswer quizAnswer) {
         if (answer.equals("true")) {
             return quizAnswer.getName();
@@ -28,17 +40,5 @@ public class RowPreparation {
             quizAnswer.setCorrectAnswer(correctAnswer(splittedAnswer[1].trim(), quizAnswer));
         }
         return quizAnswer;
-    }
-
-    public static Quiz rowToQuiz(List<String> row) {
-        if (!isNotEmptyRow(row)) {
-            throw new LineValidationQuizException("Data has empty lines");
-        }
-        final List<QuizAnswer> answers = row.stream()
-                .skip(1)
-                .filter(StringUtils::isNotBlank)
-                .map(RowPreparation::rowToQuizAnswer)
-                .collect(Collectors.toList());
-        return new Quiz(row.get(0).trim(), answers);
     }
 }
