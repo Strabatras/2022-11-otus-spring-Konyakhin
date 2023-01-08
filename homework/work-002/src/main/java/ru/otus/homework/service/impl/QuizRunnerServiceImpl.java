@@ -3,6 +3,7 @@ package ru.otus.homework.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.Interview;
+import ru.otus.homework.domain.InterviewQuestionAnswer;
 import ru.otus.homework.domain.Personality;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.exception.EmptyDataQuizException;
@@ -63,10 +64,10 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
                         ioService.outputString("  -" + answer.getName());
                     }
                 });
-                interview.setQuestionAnswer(
-                        interviewQuestionAnswerFactory
-                                .createInterviewQuestionAnswer(quiz, ioService.readString())
-                );
+                final String readString = ioService.readString();
+                final InterviewQuestionAnswer interviewQuestionAnswer
+                        = interviewQuestionAnswerFactory.createInterviewQuestionAnswer(quiz, readString);
+                interview.setQuestionAnswer(interviewQuestionAnswer);
             });
 
             interviewResultService.printStatistic(interview);
