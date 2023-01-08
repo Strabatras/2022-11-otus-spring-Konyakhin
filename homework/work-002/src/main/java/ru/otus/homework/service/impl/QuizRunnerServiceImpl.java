@@ -6,6 +6,7 @@ import ru.otus.homework.domain.Interview;
 import ru.otus.homework.domain.InterviewQuestionAnswer;
 import ru.otus.homework.domain.Personality;
 import ru.otus.homework.domain.Quiz;
+import ru.otus.homework.domain.QuizAnswer;
 import ru.otus.homework.exception.EmptyDataQuizException;
 import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
@@ -57,18 +58,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
             ioService.outputString("\n");
             final Interview interview = interviewFactory.createInterview(personality);
 
-            quizzes.forEach(quiz -> {
-                ioService.outputString(quiz.getName() + ":");
-                quiz.getAnswers().forEach(answer -> {
-                    if (isNotEmpty(answer.getName()) && isNotBlank(answer.getName())) {
-                        ioService.outputString("  -" + answer.getName());
-                    }
-                });
-                final String readString = ioService.readString();
-                final InterviewQuestionAnswer interviewQuestionAnswer
-                        = interviewQuestionAnswerFactory.createInterviewQuestionAnswer(quiz, readString);
-                interview.setQuestionAnswer(interviewQuestionAnswer);
-            });
+            quizzes.forEach(quiz -> quizInterviewRun(quiz, interview));
 
             interviewResultService.printStatistic(interview);
 
@@ -78,19 +68,37 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
         } catch (LineValidationQuizException e) {
             // TODO add to app log
             ioService.outputString(MESSAGE_INVALID_DATA_FORMAT);
-        } catch (IOQuizException e){
+        } catch (IOQuizException e) {
             // TODO add to app log
             ioService.outputString(MESSAGE_ERROR_READING_DATA);
-        } catch (EmptyDataQuizException e){
+        } catch (EmptyDataQuizException e) {
             // TODO add to app log
             ioService.outputString(MESSAGE_I_DONT_HAVE_QUESTIONS);
-        } catch (Exception e){
+        } catch (Exception e) {
             // TODO add to app log
             ioService.outputString(MESSAGE_FOR_UNHANDLED_EXCEPTION);
         }
     }
 
-    private Personality personality(){
+    private void outputQuizAnswer(QuizAnswer quizAnswer) {
+        if (isNotEmpty(quizAnswer.getName()) && isNotBlank(quizAnswer.getName())) {
+            ioService.outputString("  -" + quizAnswer.getName());
+        }
+    }
+
+    private InterviewQuestionAnswer interviewQuestionAnswer(Quiz quiz) {
+        final String readString = ioService.readString();
+        return interviewQuestionAnswerFactory.createInterviewQuestionAnswer(quiz, readString);
+    }
+
+    private void quizInterviewRun(Quiz quiz, Interview interview) {
+        ioService.outputString(quiz.getName() + ":");
+        quiz.getAnswers().forEach(this::outputQuizAnswer);
+        final InterviewQuestionAnswer interviewQuestionAnswer = interviewQuestionAnswer(quiz);
+        interview.setQuestionAnswer(interviewQuestionAnswer);
+    }
+
+    private Personality personality() {
         ioService.outputString("Identify yourself please.");
         String name = identityService.askName();
         String surname = identityService.askSurname();
