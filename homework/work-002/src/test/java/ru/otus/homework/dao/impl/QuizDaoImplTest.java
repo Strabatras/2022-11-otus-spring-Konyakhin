@@ -9,31 +9,36 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.domain.QuizAnswer;
 import ru.otus.homework.util.DataReader;
+import ru.otus.homework.util.QuizCsvRowMapper;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.assertj.core.api.Assertions.tuple;
-import static ru.otus.homework.DataFactory.expectedReadLinesForCorrectQuizzesFile;
+import static ru.otus.homework.DataFactory.correctQuizWithAnswers;
+import static ru.otus.homework.DataFactory.correctReadLineForQuizFile;
 
 @DisplayName("Вопросы/ответы - DAO")
 @ExtendWith(MockitoExtension.class)
 class QuizDaoImplTest {
     @Mock
     private DataReader dataReader;
+    @Mock
+    private QuizCsvRowMapper quizCsvRowMapper;
     @InjectMocks
     private QuizDaoImpl quizDao;
 
-    @DisplayName("возвращается корректный список строк")
+    @DisplayName("возвращается корректная строка вопроса и ответов к нему")
     @Test
-    void shouldReturnCorrectRowList() {
-        when(dataReader.readLines()).thenReturn(expectedReadLinesForCorrectQuizzesFile());
+    void shouldReturnCorrectQuizRow() {
+        when(dataReader.readLines()).thenReturn(correctReadLineForQuizFile());
+        when(quizCsvRowMapper.rowToQuiz(anyList())).thenReturn(correctQuizWithAnswers());
         assertThat(quizDao.getQuizzes())
                 .extracting(Quiz::getName,
                         answers -> answers.getAnswers().stream().map(QuizAnswer::getName).collect(Collectors.toList()),
@@ -42,13 +47,8 @@ class QuizDaoImplTest {
                                 .filter(Objects::nonNull)
                                 .collect(Collectors.toList())
                 )
-                .containsExactly(
-                        tuple("A", List.of(""), List.of("15")),
-                        tuple("B", asList("B1", "B2", "B3"), List.of()),
-                        tuple("C", asList("C1", "C2", "C3", "C4", "C5"), asList("C2", "C4")),
-                        tuple("D", List.of("D1"), List.of()),
-                        tuple("E", asList("E1", "E2"), List.of())
-                );
+                .containsExactly(tuple("Q", asList("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"), asList("Q2", "Q4", "Q6")));
+        verify(quizCsvRowMapper, times(1)).rowToQuiz(anyList());
         verify(dataReader, times(1)).readLines();
     }
 }

@@ -61,6 +61,12 @@ public class DataFactory {
         ));
     }
 
+    public static List<List<String>> correctReadLineForQuizFile(){
+        return new ArrayList<>(Arrays.asList(
+                new ArrayList<>(Arrays.asList("Q", "Q1", "Q2:::true", "Q3", "Q4:::true", "Q5", "Q6:::true", "Q7"))
+        ));
+    }
+
     public static Quiz correctQuizWithAnswers(){
         return new Quiz("Q", answers("Q", 7));
     }

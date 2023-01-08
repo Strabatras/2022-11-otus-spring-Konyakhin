@@ -5,10 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.otus.homework.dao.QuizDao;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.service.QuizService;
-import ru.otus.homework.util.RowPreparation;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service

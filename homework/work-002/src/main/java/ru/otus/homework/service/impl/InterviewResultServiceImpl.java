@@ -7,19 +7,19 @@ import ru.otus.homework.domain.InterviewQuestionAnswer;
 import ru.otus.homework.domain.Personality;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.InterviewResultService;
+import ru.otus.homework.util.InterviewStatistic;
 
 import java.util.List;
 
 import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static ru.otus.homework.util.InterviewStatistic.hasQuizCorrectAnswer;
-import static ru.otus.homework.util.InterviewStatistic.isQuizCorrectAnswer;
 
 @RequiredArgsConstructor
 @Service
 public class InterviewResultServiceImpl implements InterviewResultService {
     private final IOService ioService;
+    private final InterviewStatistic interviewStatistic;
 
     @Override
     public void printStatistic(Interview interview) {
@@ -32,11 +32,11 @@ public class InterviewResultServiceImpl implements InterviewResultService {
         int quizzesWithCorrectAnswerCount = 0;
 
         for (InterviewQuestionAnswer interviewQuestionAnswer : interviewQuestionAnswerList) {
-            if (hasQuizCorrectAnswer(interviewQuestionAnswer.getQuiz())) {
+            if (interviewStatistic.hasQuizCorrectAnswer(interviewQuestionAnswer.getQuiz())) {
                 quizzesWithCorrectAnswerCount++;
             }
             if (isNotEmpty(interviewQuestionAnswer.getInterviewAnswer()) && isNotBlank(interviewQuestionAnswer.getInterviewAnswer())) {
-                if (isQuizCorrectAnswer(interviewQuestionAnswer.getQuiz(), interviewQuestionAnswer.getInterviewAnswer().trim())) {
+                if (interviewStatistic.isQuizCorrectAnswer(interviewQuestionAnswer.getQuiz(), interviewQuestionAnswer.getInterviewAnswer().trim())) {
                     interviewCorrectAnswerCount++;
                 }
                 interviewAnswerCount++;
