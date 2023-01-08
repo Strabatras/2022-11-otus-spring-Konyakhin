@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RowPreparation {
-    public static boolean isNotEmptyRow(List<String> row) {
-        return CollectionUtils.isNotEmpty(row) && StringUtils.isNotBlank(row.get(0));
-    }
 
     public static Quiz rowToQuiz(List<String> row) {
         if (!isNotEmptyRow(row)) {
@@ -24,6 +21,10 @@ public class RowPreparation {
                 .map(RowPreparation::rowToQuizAnswer)
                 .collect(Collectors.toList());
         return new Quiz(row.get(0).trim(), answers);
+    }
+
+    private static boolean isNotEmptyRow(List<String> row) {
+        return CollectionUtils.isNotEmpty(row) && StringUtils.isNotBlank(row.get(0));
     }
 
     private static String correctAnswer(String answer, QuizAnswer quizAnswer) {
