@@ -8,10 +8,14 @@ import java.util.Scanner;
 
 @RequiredArgsConstructor
 public class InputServiceImpl implements InputService {
-    private final InputStream inputStream;
+    private final Scanner scanner;
+
+    public InputServiceImpl(InputStream inputStream) {
+        this.scanner = new Scanner(inputStream);
+    }
 
     @Override
     public String readString() {
-        return new Scanner(inputStream).nextLine();
+        return scanner.nextLine();
     }
 }
