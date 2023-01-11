@@ -12,15 +12,14 @@ import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.IOQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
-import ru.otus.homework.factory.InterviewFactory;
 import ru.otus.homework.factory.InterviewQuestionAnswerFactory;
-import ru.otus.homework.factory.PersonalityFactory;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.IdentityService;
 import ru.otus.homework.service.InterviewResultService;
 import ru.otus.homework.service.QuizRunnerService;
 import ru.otus.homework.service.QuizService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -40,8 +39,6 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     private final IOService ioService;
     private final IdentityService identityService;
     private final InterviewResultService interviewResultService;
-    private final PersonalityFactory personalityFactory;
-    private final InterviewFactory interviewFactory;
     private final InterviewQuestionAnswerFactory interviewQuestionAnswerFactory;
 
     @Override
@@ -56,7 +53,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
 
             final Personality personality = personality();
             ioService.outputString("\n");
-            final Interview interview = interviewFactory.createInterview(personality);
+            final Interview interview = interview(personality);
 
             quizzes.forEach(quiz -> quizInterviewRun(quiz, interview));
 
@@ -88,7 +85,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
 
     private InterviewQuestionAnswer interviewQuestionAnswer(Quiz quiz) {
         final String readString = ioService.readString();
-        return interviewQuestionAnswerFactory.createInterviewQuestionAnswer(quiz, readString);
+        return new InterviewQuestionAnswer(quiz, readString);
     }
 
     private void quizInterviewRun(Quiz quiz, Interview interview) {
@@ -102,6 +99,10 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
         ioService.outputString("Identify yourself please.");
         String name = identityService.askName();
         String surname = identityService.askSurname();
-        return personalityFactory.createPersonality(name, surname);
+        return new Personality(name, surname);
+    }
+
+    private Interview interview(Personality personality){
+        return new Interview(personality, new ArrayList<>());
     }
 }
