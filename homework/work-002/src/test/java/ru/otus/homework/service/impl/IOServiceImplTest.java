@@ -16,7 +16,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static ru.otus.homework.DataFactory.SOME_TEXT;
 
-
 @DisplayName("Сервис ввода/вывода сообщений")
 @ExtendWith(MockitoExtension.class)
 class IOServiceImplTest {
