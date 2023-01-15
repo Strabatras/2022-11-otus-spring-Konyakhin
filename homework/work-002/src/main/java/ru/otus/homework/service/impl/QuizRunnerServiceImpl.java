@@ -12,7 +12,6 @@ import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.IOQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
-import ru.otus.homework.factory.InterviewQuestionAnswerFactory;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.IdentityService;
 import ru.otus.homework.service.InterviewResultService;
@@ -39,7 +38,6 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     private final IOService ioService;
     private final IdentityService identityService;
     private final InterviewResultService interviewResultService;
-    private final InterviewQuestionAnswerFactory interviewQuestionAnswerFactory;
 
     @Override
     public void run() {
