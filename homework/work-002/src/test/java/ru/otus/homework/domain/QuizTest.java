@@ -25,7 +25,6 @@ class QuizTest {
     void shouldBeCorrectConstructor() {
         Quiz quiz = new Quiz(QUIZ_NAME, answers);
         assertEquals(QUIZ_NAME, quiz.getName());
-        assertNotNull(quiz.getAnswers());
         assertEquals(answers, quiz.getAnswers());
     }
 
@@ -38,7 +37,15 @@ class QuizTest {
 
     @DisplayName("корректно возвращается список ответов")
     @Test
-    void shouldReturnCorrectAnswersList() {
+    void shouldCorrectlyReturnAnswersList() {
+        Quiz quiz = new Quiz(QUIZ_NAME, answers);
+        assertNotNull(quiz.getAnswers());
+        assertEquals(answers, quiz.getAnswers());
+    }
+
+    @DisplayName("корректно возвращается список правильных ответов")
+    @Test
+    void shouldCorrectlyReturnCorrectAnswersList() {
         Quiz quiz = new Quiz(QUIZ_NAME, answers);
         assertNotNull(quiz.getAnswers());
         assertEquals(answers, quiz.getAnswers());
