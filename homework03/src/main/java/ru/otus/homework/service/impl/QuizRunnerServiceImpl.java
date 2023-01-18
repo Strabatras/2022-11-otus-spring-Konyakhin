@@ -17,6 +17,7 @@ import ru.otus.homework.service.IdentityService;
 import ru.otus.homework.service.InterviewResultService;
 import ru.otus.homework.service.QuizRunnerService;
 import ru.otus.homework.service.QuizService;
+import ru.otus.homework.util.Localization;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +28,11 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @RequiredArgsConstructor
 @Service
 public class QuizRunnerServiceImpl implements QuizRunnerService {
-
-    private static final String MESSAGE_I_DONT_HAVE_QUESTIONS = "Sorry. I don't have questions.";
-    private static final String MESSAGE_APPLICATION_CONFIGURATION_ERROR = "Sorry. Application configuration error.";
-    private static final String MESSAGE_INVALID_DATA_FORMAT = "Sorry. Invalid data format with questions.";
-    private static final String MESSAGE_ERROR_READING_DATA = "Sorry. Error reading data with questions.";
-    private static final String MESSAGE_FOR_UNHANDLED_EXCEPTION = "Sorry. Something went wrong.";
-
     private final QuizService quizService;
     private final IOService ioService;
     private final IdentityService identityService;
     private final InterviewResultService interviewResultService;
+    private final Localization localization;
 
     @Override
     public void run() {
@@ -59,19 +54,19 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
 
         } catch (EmptyFileNameQuizException | FileNotFoundQuizException e) {
             // TODO add to app log
-            ioService.outputString(MESSAGE_APPLICATION_CONFIGURATION_ERROR);
+            ioService.outputString(localization.getMessage("error.message.application.configuration.error"));
         } catch (LineValidationQuizException e) {
             // TODO add to app log
-            ioService.outputString(MESSAGE_INVALID_DATA_FORMAT);
+            ioService.outputString(localization.getMessage("error.message.invalid.data.format"));
         } catch (IOQuizException e) {
             // TODO add to app log
-            ioService.outputString(MESSAGE_ERROR_READING_DATA);
+            ioService.outputString(localization.getMessage("error.message.error.reading.data"));
         } catch (EmptyDataQuizException e) {
             // TODO add to app log
-            ioService.outputString(MESSAGE_I_DONT_HAVE_QUESTIONS);
+            ioService.outputString(localization.getMessage("error.message.i.dont.have.questions"));
         } catch (Exception e) {
             // TODO add to app log
-            ioService.outputString(MESSAGE_FOR_UNHANDLED_EXCEPTION);
+            ioService.outputString(localization.getMessage("error.message.for.unhandled.exception"));
         }
     }
 
@@ -94,13 +89,13 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     }
 
     private Personality personality() {
-        ioService.outputString("Identify yourself please.");
+        ioService.outputString(localization.getMessage("identify.yourself"));
         String name = identityService.askName();
         String surname = identityService.askSurname();
         return new Personality(name, surname);
     }
 
-    private Interview interview(Personality personality){
+    private Interview interview(Personality personality) {
         return new Interview(personality, new ArrayList<>());
     }
 }
