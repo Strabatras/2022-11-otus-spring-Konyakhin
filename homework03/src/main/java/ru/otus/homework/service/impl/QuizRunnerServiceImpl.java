@@ -89,7 +89,7 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     }
 
     private Personality personality() {
-        ioService.outputString(localization.getMessage("identify.yourself"));
+        ioService.outputString("\n" + localization.getMessage("identify.yourself"));
         String name = identityService.askName();
         String surname = identityService.askSurname();
         return new Personality(name, surname);

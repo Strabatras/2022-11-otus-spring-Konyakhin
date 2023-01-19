@@ -11,11 +11,11 @@ public class LocalizationMessage implements Localization {
 
     @Override
     public String getMessage(String code, Object[] args) {
-        return messageSource.getMessage("identify.name", args, localizationPropertie.getLocale());
+        return messageSource.getMessage(code, args, localizationPropertie.getLocale());
     }
 
     @Override
     public String getMessage(String code) {
-        return messageSource.getMessage("identify.name", null, localizationPropertie.getLocale());
+        return messageSource.getMessage(code, null, localizationPropertie.getLocale());
     }
 }
