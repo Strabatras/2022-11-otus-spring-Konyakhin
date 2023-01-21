@@ -2,10 +2,9 @@ package ru.otus.homework.dao.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.domain.QuizAnswer;
 import ru.otus.homework.util.DataReader;
@@ -25,7 +24,7 @@ import static ru.otus.homework.DataFactory.correctQuizWithAnswers;
 import static ru.otus.homework.DataFactory.correctReadLineForQuizFile;
 
 @DisplayName("Вопросы/ответы - DAO")
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class QuizDaoImplTest {
     @Mock
     private DataReader dataReader;

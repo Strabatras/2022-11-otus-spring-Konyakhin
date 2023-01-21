@@ -2,11 +2,10 @@ package ru.otus.homework.service.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.homework.service.InputService;
 import ru.otus.homework.service.OutputService;
 
@@ -17,7 +16,7 @@ import static org.mockito.Mockito.when;
 import static ru.otus.homework.DataFactory.SOME_TEXT;
 
 @DisplayName("Сервис ввода/вывода сообщений")
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class IOServiceImplTest {
     @Mock
     private OutputService outputService;

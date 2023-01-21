@@ -3,6 +3,7 @@ package ru.otus.homework.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.otus.homework.DataFactory.PERSONALITY_NAME;
@@ -10,6 +11,7 @@ import static ru.otus.homework.DataFactory.PERSONALITY_SURNAME;
 import static ru.otus.homework.DataFactory.personality;
 
 @DisplayName("Персона")
+@SpringBootTest
 class PersonalityTest {
 
     private Personality personality;

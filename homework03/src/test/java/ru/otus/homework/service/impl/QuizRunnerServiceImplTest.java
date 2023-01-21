@@ -2,18 +2,15 @@ package ru.otus.homework.service.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.IOQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
 import ru.otus.homework.service.IOService;
-import ru.otus.homework.service.IdentityService;
-import ru.otus.homework.service.InterviewResultService;
 import ru.otus.homework.service.QuizService;
 import ru.otus.homework.util.Localization;
 
@@ -32,7 +29,7 @@ import static ru.otus.homework.DataFactory.MESSAGE_I_DONT_HAVE_QUESTIONS__ERROR;
 import static ru.otus.homework.DataFactory.MESSAGE_READING_DATA_QUESTIONS_ERROR;
 
 @DisplayName("Сервис запуска опросов")
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class QuizRunnerServiceImplTest {
 
     @Mock
