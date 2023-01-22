@@ -11,7 +11,6 @@ import static ru.otus.homework.DataFactory.CSV_FILE_NAME;
 import static ru.otus.homework.DataFactory.CSV_FOLDER_NAME;
 
 @DisplayName("Параметры хранения CSV файла")
-@ActiveProfiles()
 @SpringBootTest
 class FileCSVPropertieTest {
 
