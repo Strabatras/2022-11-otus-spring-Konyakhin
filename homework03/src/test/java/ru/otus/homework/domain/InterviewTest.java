@@ -3,6 +3,7 @@ package ru.otus.homework.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import static ru.otus.homework.DataFactory.interviewQuestionAnswers;
 import static ru.otus.homework.DataFactory.personality;
 
 @DisplayName("Опрос")
+@SpringBootTest
 class InterviewTest {
 
     private Personality personality;

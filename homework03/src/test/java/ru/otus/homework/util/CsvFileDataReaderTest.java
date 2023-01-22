@@ -2,6 +2,7 @@ package ru.otus.homework.util;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 
@@ -22,6 +23,7 @@ import static ru.otus.homework.DataFactory.MESSAGE_FILE_IS_NOT_FOUND;
 import static ru.otus.homework.DataFactory.expectedReadLinesForCorrectQuizzesFile;
 
 @DisplayName("Разбор csv файлов")
+@SpringBootTest
 class CsvFileDataReaderTest {
 
     @DisplayName("выбрасывает конкретное исключение 'EmptyFileNameQuizException' если имя файла пустое")

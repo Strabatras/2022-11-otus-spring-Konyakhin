@@ -1,0 +1,11 @@
+spring :
+  messages :
+    basename : "i18n/messages"
+    encoding: "UTF-8"
+quiz :
+  localization :
+    locale : "ru"
+  file :
+    csv :
+      folder : "quiz"
+      file-name : "quiz.csv"

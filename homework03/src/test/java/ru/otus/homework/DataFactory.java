@@ -8,6 +8,7 @@ import ru.otus.homework.domain.QuizAnswer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class DataFactory {
     public static final String MESSAGE_ANY_ERROR = "Any error message.";
@@ -19,6 +20,8 @@ public class DataFactory {
     public static final String QUIZ_NAME = "QuizName";
     public static final String CSV_EMPTY_NAME_OF_FILE = "";
     public static final String CSV_EMPTY_FILE = "empty.csv";
+    public static final String CSV_FOLDER_NAME = "quiz";
+    public static final String CSV_FILE_NAME = "quiz.csv";
     public static final String CSV_CORRECT_QUIZZES_FILE = "quizzes.csv";
     public static final String CSV_NON_EXISTENT_FILE = "non-existent.csv";
     public static final String PERSONALITY_NAME = "Personality name";
@@ -87,5 +90,9 @@ public class DataFactory {
 
     public static InterviewQuestionAnswer interviewQuestionAnswer(){
         return new InterviewQuestionAnswer(correctQuizWithAnswers(), INTERVIEW_ANSWER);
+    }
+
+    public static Stream<String> localeNames(){
+        return Stream.of("en", "ru");
     }
 }
