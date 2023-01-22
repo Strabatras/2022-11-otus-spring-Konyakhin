@@ -7,8 +7,8 @@ import ru.otus.homework.domain.InterviewQuestionAnswer;
 import ru.otus.homework.domain.Personality;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.InterviewResultService;
+import ru.otus.homework.service.LocalizationService;
 import ru.otus.homework.util.InterviewStatistic;
-import ru.otus.homework.util.Localization;
 
 import java.util.List;
 
@@ -19,14 +19,14 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @Service
 public class InterviewResultServiceImpl implements InterviewResultService {
     private final IOService ioService;
+    private final LocalizationService localizationService;
     private final InterviewStatistic interviewStatistic;
-    private final Localization localization;
 
     @Override
     public void printStatistic(Interview interview) {
         final Personality personality = interview.getPersonality();
         final String interviewPersonalityIsFinished
-                = localization.getMessage("interview.personality.is.finished", new String[]{personality.getName(), personality.getSurname()});
+                = localizationService.getMessage("interview.personality.is.finished", new String[]{personality.getName(), personality.getSurname()});
         ioService.outputString("\n" + interviewPersonalityIsFinished);
 
         final List<InterviewQuestionAnswer> interviewQuestionAnswerList = interview.getInterviewQuestionAnswers();
@@ -46,11 +46,11 @@ public class InterviewResultServiceImpl implements InterviewResultService {
             }
         }
         final String interviewAnsweredOfQuestions
-                = localization.getMessage("interview.answered.of.questions", new Integer[]{interviewAnswerCount, interviewQuestionAnswerList.size()});
+                = localizationService.getMessage("interview.answered.of.questions", new Integer[]{interviewAnswerCount, interviewQuestionAnswerList.size()});
         ioService.outputString(interviewAnsweredOfQuestions);
 
         final String interviewAnsweredOfCorrect
-                = localization.getMessage("interview.answered.of.correct", new Integer[]{quizzesWithCorrectAnswerCount, interviewCorrectAnswerCount});
+                = localizationService.getMessage("interview.answered.of.correct", new Integer[]{quizzesWithCorrectAnswerCount, interviewCorrectAnswerCount});
         ioService.outputString(interviewAnsweredOfCorrect);
     }
 }

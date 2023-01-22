@@ -4,21 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.IdentityService;
-import ru.otus.homework.util.Localization;
+import ru.otus.homework.service.LocalizationService;
 
 @RequiredArgsConstructor
 @Service
 public class IdentityServiceImpl implements IdentityService {
 
     private final IOService ioService;
-    private final Localization localization;
+    private final LocalizationService localizationService;
 
     @Override
     public String askName() {
-        ioService.outputString(localization.getMessage("identify.name") + ":");
+        ioService.outputString(localizationService.getMessage("identify.name") + ":");
         String name = ioService.readString().trim();
         if(name.isEmpty()){
-            ioService.outputString(localization.getMessage("identify.name.cant.be.empty"));
+            ioService.outputString(localizationService.getMessage("identify.name.cant.be.empty"));
             return askName();
         }
         return name;
@@ -26,10 +26,10 @@ public class IdentityServiceImpl implements IdentityService {
 
     @Override
     public String askSurname() {
-        ioService.outputString(localization.getMessage("identify.surname") + ":");
+        ioService.outputString(localizationService.getMessage("identify.surname") + ":");
         String surname = ioService.readString().trim();
         if(surname.isEmpty()){
-            ioService.outputString(localization.getMessage("identify.surname.cant.be.empty"));
+            ioService.outputString(localizationService.getMessage("identify.surname.cant.be.empty"));
             return askSurname();
         }
         return surname;
