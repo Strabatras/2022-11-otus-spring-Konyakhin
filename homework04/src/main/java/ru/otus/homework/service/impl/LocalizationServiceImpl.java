@@ -13,7 +13,7 @@ public class LocalizationServiceImpl implements LocalizationService {
     private final LocalizationPropertie localizationPropertie;
 
     @Override
-    public String getMessage(String code, Object[] args) {
+    public String getMessage(String code, Object ...args) {
         return messageSource.getMessage(code, args, localizationPropertie.getLocale());
     }
 
