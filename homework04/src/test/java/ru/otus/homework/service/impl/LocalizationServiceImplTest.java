@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static ru.otus.homework.DataFactory.localeNames;
 
 @DisplayName("Локализация сообщений")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class LocalizationServiceImplTest {
     @Autowired
     private LocalizationPropertie localizationPropertie;

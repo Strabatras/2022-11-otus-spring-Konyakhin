@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Параметры локализации")
 @ActiveProfiles()
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class LocalizationPropertieTest {
 
     @Autowired

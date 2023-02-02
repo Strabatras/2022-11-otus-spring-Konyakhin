@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 import static ru.otus.homework.DataFactory.SOME_TEXT;
 
 @DisplayName("Сервис ввода/вывода сообщений")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class IOServiceImplTest {
     @Mock
     private OutputService outputService;

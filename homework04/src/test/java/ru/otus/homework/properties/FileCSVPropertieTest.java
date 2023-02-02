@@ -10,7 +10,7 @@ import static ru.otus.homework.DataFactory.CSV_FILE_NAME;
 import static ru.otus.homework.DataFactory.CSV_FOLDER_NAME;
 
 @DisplayName("Параметры хранения CSV файла")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class FileCSVPropertieTest {
 
     @Autowired

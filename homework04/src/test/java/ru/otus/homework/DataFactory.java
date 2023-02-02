@@ -4,6 +4,7 @@ import ru.otus.homework.domain.InterviewQuestionAnswer;
 import ru.otus.homework.domain.Personality;
 import ru.otus.homework.domain.Quiz;
 import ru.otus.homework.domain.QuizAnswer;
+import ru.otus.homework.properties.ShellPropertie;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,6 +73,16 @@ public class DataFactory {
 
     public static Quiz correctQuizWithAnswers(){
         return new Quiz("Q", answers("Q", 7));
+    }
+
+    public static ShellPropertie.Interactive shellPropertieInteractive(){
+        return new ShellPropertie.Interactive();
+    }
+
+    public static ShellPropertie.Interactive shellPropertieInteractiveEnabledFalse(){
+        final ShellPropertie.Interactive interactive = shellPropertieInteractive();
+        interactive.setEnabled(false);
+        return interactive;
     }
 
     public static Personality personality(){

@@ -11,6 +11,7 @@ import ru.otus.homework.domain.Interview;
 import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.IOQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
+import ru.otus.homework.properties.ShellPropertie;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.IdentityService;
 import ru.otus.homework.service.InterviewResultService;
@@ -31,10 +32,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static ru.otus.homework.DataFactory.MESSAGE_ANY_ERROR;
 import static ru.otus.homework.DataFactory.correctQuizWithAnswers;
+import static ru.otus.homework.DataFactory.shellPropertieInteractiveEnabledFalse;
 
 @DisplayName("Сервис запуска опросов")
 @ActiveProfiles
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class QuizRunnerServiceImplTest {
     @Mock
     private QuizService quizService;
@@ -46,6 +48,8 @@ class QuizRunnerServiceImplTest {
     private InterviewResultService interviewResultService;
     @Mock
     private PrintService printService;
+    @Mock
+    private ShellPropertie shellPropertie;
     @InjectMocks
     private QuizRunnerServiceImpl quizRunnerService;
 
@@ -53,56 +57,64 @@ class QuizRunnerServiceImplTest {
     @Test
     void shouldDoesNotThrowEmptyFileNameQuizException(){
         ArgumentCaptor<String> param = ArgumentCaptor.forClass(String.class);
+        when(shellPropertie.getInteractive()).thenReturn(shellPropertieInteractiveEnabledFalse());
         when(quizService.getQuizzes()).thenThrow(new EmptyFileNameQuizException(MESSAGE_ANY_ERROR));
         doNothing().when(printService).outputLocalizedMessage(param.capture());
 
         assertDoesNotThrow(() -> quizRunnerService.run());
 
         assertThat(param.getValue()).isEqualTo("error.message.application.configuration.error");
+        verify(shellPropertie, times(1)).getInteractive();
         verify(quizService, times(1)).getQuizzes();
-        verify(printService, times(1)).outputLocalizedMessage(anyString());
+        verify(printService, times(2)).outputLocalizedMessage(anyString());
     }
 
     @DisplayName("не должен выбрасывать исключение если не найден файл с вопросам")
     @Test
     void shouldDoesNotThrowFileNotFoundQuizException(){
         ArgumentCaptor<String> param = ArgumentCaptor.forClass(String.class);
+        when(shellPropertie.getInteractive()).thenReturn(shellPropertieInteractiveEnabledFalse());
         when(quizService.getQuizzes()).thenThrow(new EmptyFileNameQuizException(MESSAGE_ANY_ERROR));
         doNothing().when(printService).outputLocalizedMessage(param.capture());
 
         assertDoesNotThrow(() -> quizRunnerService.run());
 
         assertThat(param.getValue()).isEqualTo("error.message.application.configuration.error");
+        verify(shellPropertie, times(1)).getInteractive();
         verify(quizService, times(1)).getQuizzes();
-        verify(printService, times(1)).outputLocalizedMessage(anyString());
+        verify(printService, times(2)).outputLocalizedMessage(anyString());
     }
 
     @DisplayName("не должен выбрасывать исключение при ошибке валидации строк вопросов")
     @Test
     void shouldDoesNotThrowLineValidationQuizException(){
         ArgumentCaptor<String> param = ArgumentCaptor.forClass(String.class);
+        when(shellPropertie.getInteractive()).thenReturn(shellPropertieInteractiveEnabledFalse());
         when(quizService.getQuizzes()).thenThrow(new LineValidationQuizException(MESSAGE_ANY_ERROR));
         doNothing().when(printService).outputLocalizedMessage(param.capture());
 
         assertDoesNotThrow(() -> quizRunnerService.run());
 
         assertThat(param.getValue()).isEqualTo("error.message.invalid.data.format");
+        verify(shellPropertie, times(1)).getInteractive();
         verify(quizService, times(1)).getQuizzes();
-        verify(printService, times(1)).outputLocalizedMessage(anyString());
+        verify(printService, times(2)).outputLocalizedMessage(anyString());
     }
 
     @DisplayName("не должен выбрасывать исключение при ошибках ввода/вывода")
     @Test
     void shouldDoesNotThrowIOQuizException(){
         ArgumentCaptor<String> param = ArgumentCaptor.forClass(String.class);
+        when(shellPropertie.getInteractive()).thenReturn(shellPropertieInteractiveEnabledFalse());
         when(quizService.getQuizzes()).thenThrow(new IOQuizException(MESSAGE_ANY_ERROR));
         doNothing().when(printService).outputLocalizedMessage(param.capture());
 
         assertDoesNotThrow(() -> quizRunnerService.run());
 
         assertThat(param.getValue()).isEqualTo("error.message.error.reading.data");
+        verify(shellPropertie, times(1)).getInteractive();
         verify(quizService, times(1)).getQuizzes();
-        verify(printService, times(1)).outputLocalizedMessage(anyString());
+        verify(printService, times(2)).outputLocalizedMessage(anyString());
     }
 
 
@@ -110,26 +122,30 @@ class QuizRunnerServiceImplTest {
     @Test
     void shouldDoesNotThrowEmptyDataQuizException() {
         ArgumentCaptor<String> param = ArgumentCaptor.forClass(String.class);
+        when(shellPropertie.getInteractive()).thenReturn(shellPropertieInteractiveEnabledFalse());
         when(quizService.getQuizzes()).thenReturn(new ArrayList<>());
         doNothing().when(printService).outputLocalizedMessage(param.capture());
 
         assertDoesNotThrow(() -> quizRunnerService.run());
 
         assertThat(param.getValue()).isEqualTo("error.message.i.dont.have.questions");
+        verify(shellPropertie, times(1)).getInteractive();
         verify(quizService, times(1)).getQuizzes();
-        verify(printService, times(1)).outputLocalizedMessage(anyString());
+        verify(printService, times(2)).outputLocalizedMessage(anyString());
     }
 
     @DisplayName("должно вызываться предложение идентификации")
     @Test
     void shouldCallIdentifyYourselfMessage(){
         ArgumentCaptor<String> param = ArgumentCaptor.forClass(String.class);
+        when(shellPropertie.getInteractive()).thenReturn(shellPropertieInteractiveEnabledFalse());
         when(quizService.getQuizzes()).thenReturn(List.of(correctQuizWithAnswers()));
         doNothing().when(printService).outputLocalizedMessage(param.capture());
 
         assertDoesNotThrow(() -> quizRunnerService.run());
 
         assertThat(param.getValue()).isEqualTo("identify.yourself");
+        verify(shellPropertie, times(1)).getInteractive();
         verify(quizService, times(1)).getQuizzes();
         verify(printService, times(1)).outputLocalizedMessage(anyString());
     }
@@ -137,6 +153,7 @@ class QuizRunnerServiceImplTest {
     @DisplayName("должен корректно запускаться")
     @Test
     void ShouldCorrectlyRun(){
+        when(shellPropertie.getInteractive()).thenReturn(shellPropertieInteractiveEnabledFalse());
         when(quizService.getQuizzes()).thenReturn(List.of(correctQuizWithAnswers()));
         when(ioService.readString()).thenReturn("");
         doNothing().when(printService).outputLocalizedMessage(anyString());
@@ -146,6 +163,7 @@ class QuizRunnerServiceImplTest {
 
         assertDoesNotThrow(() -> quizRunnerService.run());
 
+        verify(shellPropertie, times(1)).getInteractive();
         verify(quizService, times(1)).getQuizzes();
         verify(printService, times(1)).outputLocalizedMessage(anyString());
         verify(identityService, times(1)).askName();

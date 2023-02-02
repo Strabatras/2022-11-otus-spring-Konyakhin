@@ -20,7 +20,7 @@ import static ru.otus.homework.DataFactory.interviewQuestionAnswers;
 import static ru.otus.homework.DataFactory.personality;
 
 @DisplayName("Опрос")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class InterviewTest {
 
     private Personality personality;

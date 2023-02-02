@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.otus.homework.DataFactory.SOME_TEXT;
 
 @DisplayName("Сервис ввода сообщений")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class InputServiceImplTest {
 
     @DisplayName("возврат введенного в консоли сообщения")
