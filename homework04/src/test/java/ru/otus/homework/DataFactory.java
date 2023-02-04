@@ -1,5 +1,6 @@
 package ru.otus.homework;
 
+import ru.otus.homework.domain.Interview;
 import ru.otus.homework.domain.InterviewQuestionAnswer;
 import ru.otus.homework.domain.Personality;
 import ru.otus.homework.domain.Quiz;
@@ -28,6 +29,14 @@ public class DataFactory {
     public static final String PERSONALITY_NAME = "Personality name";
     public static final String PERSONALITY_SURNAME = "Personality surname";
     public static final String INTERVIEW_ANSWER = "Interview Answer";
+    public static final String USER_AUTHORIZATION_NAME = "Name";
+    public static final String USER_AUTHORIZATION_SURNAME = "Surname";
+    public static final String MESSAGE_PLEASE_ANSWER_QUESTIONS = "Please answer the questions";
+    public static final String MESSAGE_PLEASE_AUTHORIZE = "Please authorize";
+    public static final String MESSAGE_AUTHORIZATION_NAME_CAN_NOT_BE_EMPTY = "Name can't be empty";
+    public static final String MESSAGE_AUTHORIZATION_SURNAME_CAN_NOT_BE_EMPTY = "Surname can't be empty";
+    public static final String MESSAGE_AUTHORIZATION_NAME_AND_SURNAME_CAN_NOT_BE_EMPTY = "Name can't be empty. Surname can't be empty";
+    public static final String MESSAGE_AUTHORIZATION_CONTINUE_AUTHORIZATION_IS_CORRECT = "Now you're authorized and can answer the questions";
     public static final String MESSAGE_APPLICATION_CONFIGURATION_ERROR = "Sorry. Application configuration error.";
     public static final String MESSAGE_INVALID_DATA_FORMAT_QUESTIONS_ERROR = "Sorry. Invalid data format with questions.";
     public static final String MESSAGE_READING_DATA_QUESTIONS_ERROR = "Sorry. Error reading data with questions.";
@@ -101,6 +110,10 @@ public class DataFactory {
 
     public static InterviewQuestionAnswer interviewQuestionAnswer(){
         return new InterviewQuestionAnswer(correctQuizWithAnswers(), INTERVIEW_ANSWER);
+    }
+
+    public static Interview interview(){
+        return new Interview(personality(), interviewQuestionAnswers());
     }
 
     public static Stream<String> localeNames(){
