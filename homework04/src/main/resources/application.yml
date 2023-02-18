@@ -7,6 +7,8 @@ spring :
   shell:
     interactive:
       enabled: true
+    history:
+      enabled: false
 quiz :
   localization :
     locale : "ru"

@@ -12,7 +12,6 @@ import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.IOQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
-import ru.otus.homework.properties.ShellPropertie;
 import ru.otus.homework.service.IOService;
 import ru.otus.homework.service.IdentityService;
 import ru.otus.homework.service.InterviewResultService;
@@ -35,21 +34,20 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
     private final IdentityService identityService;
     private final InterviewResultService interviewResultService;
     private final PrintService printService;
-    private final ShellPropertie shellPropertie;
 
     @Override
     public void run() {
-        if (!shellPropertie.getInteractive().isEnabled()) {
-            final Interview interview = run(personality());
-            interviewResultService.printStatistic(interview);
-        }
+        final Interview interview = run(personality());
+        interviewResultService.printStatistic(interview);
     }
 
+    @Override
     public void runInShell(ShellQuizRunner shellQuizRunner){
         final Interview interview = run(shellQuizRunner.getPersonality());
         shellQuizRunner.setInterview(interview);
     }
 
+    @Override
     public void runOutputStatisticInShell(ShellQuizRunner shellQuizRunner){
         final Interview interview = shellQuizRunner.getInterview();
         interviewResultService.printStatistic(interview);
