@@ -10,28 +10,53 @@ import ru.otus.homework.exception.EmptyFileNameQuizException;
 import ru.otus.homework.exception.FileNotFoundQuizException;
 import ru.otus.homework.exception.IOQuizException;
 import ru.otus.homework.exception.LineValidationQuizException;
-import ru.otus.homework.service.IOService;
-import ru.otus.homework.service.IdentityService;
 import ru.otus.homework.service.InterviewResultService;
+import ru.otus.homework.service.LocalizationService;
 import ru.otus.homework.service.PrintService;
-import ru.otus.homework.service.QuizRunnerService;
 import ru.otus.homework.service.QuizService;
+import ru.otus.homework.service.QuizShellRunnerService;
 import ru.otus.homework.util.QuizUtil;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
+
+import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
 @RequiredArgsConstructor
 @Service
-public class QuizRunnerServiceImpl implements QuizRunnerService {
+public class QuizShellRunnerServiceImpl implements QuizShellRunnerService {
     private final QuizService quizService;
-    private final IOService ioService;
-    private final IdentityService identityService;
     private final InterviewResultService interviewResultService;
+    private final LocalizationService localizationService;
     private final PrintService printService;
     private final QuizUtil quizUtil;
 
+    private Personality personality;
+    private Interview interview;
+
     @Override
-    public void run() {
+    public void authorizationRun(String name, String surname) {
+        StringJoiner outputMessage = new StringJoiner(". ");
+        if (isEmpty(name)) {
+            outputMessage.add(localizationService.getMessage("identify.name.cant.be.empty"));
+        }
+        if (isEmpty(surname)) {
+            outputMessage.add(localizationService.getMessage("identify.surname.cant.be.empty"));
+        }
+        if (outputMessage.length() == 0) {
+            personality = new Personality(name, surname);
+            outputMessage.add(localizationService.getMessage("identify.you.can.answer.questions"));
+        }
+        printService.outputMessage(outputMessage.toString());
+    }
+
+    @Override
+    public void quizRun(){
+        if (personality == null){
+            printService.outputLocalizedMessage("identify.authorized.please");
+            return;
+        }
         try {
             final List<Quiz> quizzes = quizService.getQuizzes();
 
@@ -40,11 +65,9 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
             }
 
             printService.outputMessage("\n");
-            final Personality personality = personality();
-            final Interview interview = quizUtil.getInterview(personality);
+            interview = quizUtil.getInterview(personality);
             quizzes.forEach(quiz -> quizUtil.quizInterview(quiz, interview));
-            interviewResultService.printStatistic(interview);
-
+            printService.outputLocalizedMessage("have.access.to.questions.statistics");
         } catch (EmptyFileNameQuizException | FileNotFoundQuizException e) {
             // TODO add to app log
             printService.outputLocalizedMessage("error.message.application.configuration.error");
@@ -63,11 +86,13 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
         }
     }
 
-    private Personality personality() {
-        printService.outputMessage("\n");
-        printService.outputLocalizedMessage("identify.yourself");
-        String name = identityService.askName();
-        String surname = identityService.askSurname();
-        return new Personality(name, surname);
+    @Override
+    public void statisticRun(){
+        if (interview == null){
+            printService.outputLocalizedMessage("please.answer.the.questions");
+            return;
+        }
+        interviewResultService.printStatistic(interview);
+        printService.outputLocalizedMessage("enter.exit.to.complete");
     }
 }

@@ -12,6 +12,10 @@ public class PrintServiceImpl implements PrintService {
     private final IOService ioService;
     private final LocalizationService localizationService;
 
+    public void outputMessage(String message){
+        ioService.outputString(message);
+    }
+
     @Override
     public void outputLocalizedMessage(String localizationCode) {
         ioService.outputString(localizationService.getMessage(localizationCode));
