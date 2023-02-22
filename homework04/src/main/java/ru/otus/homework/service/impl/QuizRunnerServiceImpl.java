@@ -18,7 +18,6 @@ import ru.otus.homework.service.InterviewResultService;
 import ru.otus.homework.service.PrintService;
 import ru.otus.homework.service.QuizRunnerService;
 import ru.otus.homework.service.QuizService;
-import ru.otus.homework.util.ShellQuizRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,26 +36,19 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
 
     @Override
     public void run() {
-        final Interview interview = run(personality());
-        interviewResultService.printStatistic(interview);
-    }
-
-    @Override
-    public void runInShell(ShellQuizRunner shellQuizRunner){
-        final Interview interview = run(shellQuizRunner.getPersonality());
-        shellQuizRunner.setInterview(interview);
-    }
-
-    @Override
-    public void runOutputStatisticInShell(ShellQuizRunner shellQuizRunner){
-        final Interview interview = shellQuizRunner.getInterview();
-        interviewResultService.printStatistic(interview);
-    }
-
-    private Interview run(Personality personality){
-        Interview interview = null;
         try {
-            interview = runQuiz(personality);
+            final List<Quiz> quizzes = quizService.getQuizzes();
+
+            if (quizzes.isEmpty()) {
+                throw new EmptyDataQuizException("Quiz data is empty");
+            }
+
+            ioService.outputString("\n");
+            final Personality personality = personality();
+            final Interview interview = interview(personality);
+            quizzes.forEach(quiz -> quizInterviewRun(quiz, interview));
+            interviewResultService.printStatistic(interview);
+
         } catch (EmptyFileNameQuizException | FileNotFoundQuizException e) {
             // TODO add to app log
             printService.outputLocalizedMessage("error.message.application.configuration.error");
@@ -73,21 +65,6 @@ public class QuizRunnerServiceImpl implements QuizRunnerService {
             // TODO add to app log
             printService.outputLocalizedMessage("error.message.for.unhandled.exception");
         }
-        return interview;
-    }
-
-    private Interview runQuiz(Personality personality){
-        final List<Quiz> quizzes = quizService.getQuizzes();
-
-        if (quizzes.isEmpty()) {
-            throw new EmptyDataQuizException("Quiz data is empty");
-        }
-
-        ioService.outputString("\n");
-
-        final Interview interview = interview(personality);
-        quizzes.forEach(quiz -> quizInterviewRun(quiz, interview));
-        return interview;
     }
 
     private void outputQuizAnswer(QuizAnswer quizAnswer) {
