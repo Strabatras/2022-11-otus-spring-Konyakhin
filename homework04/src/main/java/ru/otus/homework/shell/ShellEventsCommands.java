@@ -4,14 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.homework.domain.Personality;
-import ru.otus.homework.service.LocalizationService;
-import ru.otus.homework.service.QuizRunnerService;
 import ru.otus.homework.service.QuizShellRunnerService;
-
-import java.util.StringJoiner;
-
-import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
 @ShellComponent
 @RequiredArgsConstructor

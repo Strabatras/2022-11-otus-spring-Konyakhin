@@ -17,7 +17,6 @@ import ru.otus.homework.service.QuizService;
 import ru.otus.homework.service.QuizShellRunnerService;
 import ru.otus.homework.util.QuizUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
