@@ -26,7 +26,6 @@ import static java.lang.Long.parseLong;
 @Service
 public class PrintServiceImpl implements PrintService {
     private static final String SOMETHING_WENT_WRONG = "Что-то пошло не так";
-
     private final AuthorUtil authorUtil;
     private final BookUtil bookUtil;
     private final GenreUtil genreUtil;
@@ -140,5 +139,4 @@ public class PrintServiceImpl implements PrintService {
     public void printMessage(String message) {
         outputService.outputString(message);
     }
-
 }

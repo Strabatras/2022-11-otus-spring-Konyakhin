@@ -54,7 +54,7 @@ public class GenreDaoJdbc implements GenreDao {
     }
 
     @Override
-    public List<Genre> findByIdList(List<Long> ids){
+    public List<Genre> findByIdList(List<Long> ids) {
         return namedJdbc.query(SQL_FIND_GENRES_BY_ID_LIST,
                 Map.of("genre_ids", ids),
                 new GenreMapper());

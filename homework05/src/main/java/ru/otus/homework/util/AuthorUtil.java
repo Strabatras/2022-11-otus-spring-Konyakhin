@@ -2,7 +2,6 @@ package ru.otus.homework.util;
 
 import org.springframework.stereotype.Component;
 import ru.otus.homework.domain.Author;
-import ru.otus.homework.domain.Book;
 
 import java.util.List;
 import java.util.StringJoiner;

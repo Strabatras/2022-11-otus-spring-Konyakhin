@@ -3,7 +3,9 @@ package ru.otus.homework.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.homework.dao.BookAuthorDao;
 import ru.otus.homework.dao.BookDao;
+import ru.otus.homework.dao.BookGenreDao;
 import ru.otus.homework.domain.Author;
 import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
@@ -26,6 +28,8 @@ import static ru.otus.homework.helper.LongHelper.listToUniqueList;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookDao bookDao;
+    private final BookGenreDao bookGenreDao;
+    private final BookAuthorDao bookAuthorDao;
     private final GenreService genreService;
     private final AuthorService authorService;
 
@@ -50,8 +54,11 @@ public class BookServiceImpl implements BookService {
         return bookDao.findByGenreId(id);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
+        bookAuthorDao.deleteByBookId(id);
+        bookGenreDao.deleteByBookId(id);
         bookDao.deleteById(id);
     }
 
@@ -62,13 +69,13 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new BookNotFoundLibraryException("Книга не найдена"));
         if (bookDTO.getGenreIds().size() > 0) {
             checkValidGenreIds(bookDTO.getGenreIds());
-            bookDao.deleteBookGenreByBookId(bookDTO.getId());
-            bookDao.createBookGenreBatch(bookDTO.getId(), bookDTO.getAuthorIds());
+            bookGenreDao.deleteByBookId(bookDTO.getId());
+            bookGenreDao.createBatch(bookDTO.getId(), bookDTO.getAuthorIds());
         }
         if (bookDTO.getAuthorIds().size() > 0) {
             checkValidAuthorIds(bookDTO.getAuthorIds());
-            bookDao.deleteBookAuthorByBookId(bookDTO.getId());
-            bookDao.createBookAuthorBatch(bookDTO.getId(), bookDTO.getAuthorIds());
+            bookAuthorDao.deleteByBookId(bookDTO.getId());
+            bookAuthorDao.createBatch(bookDTO.getId(), bookDTO.getAuthorIds());
         }
         if (bookDTO.getTitle() == null) {
             bookDTO.setTitle(book.getTitle());
@@ -81,19 +88,19 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public void create(BookDTO bookDTO){
+    public void create(BookDTO bookDTO) {
         bookDao.create(bookDTO);
         if (bookDTO.getGenreIds().size() > 0) {
             checkValidGenreIds(bookDTO.getGenreIds());
-            bookDao.createBookGenreBatch(bookDTO.getId(), bookDTO.getAuthorIds());
+            bookGenreDao.createBatch(bookDTO.getId(), bookDTO.getAuthorIds());
         }
         if (bookDTO.getAuthorIds().size() > 0) {
             checkValidAuthorIds(bookDTO.getAuthorIds());
-            bookDao.createBookAuthorBatch(bookDTO.getId(), bookDTO.getAuthorIds());
+            bookAuthorDao.createBatch(bookDTO.getId(), bookDTO.getAuthorIds());
         }
     }
 
-    private void checkValidGenreIds(List<Long> genreIds){
+    private void checkValidGenreIds(List<Long> genreIds) {
         if (genreIds.size() != listToUniqueList(genreIds).size()) {
             throw new IllegalArgumentException("Для переданных иденетефикаторов жанров, существуют дубликаты");
         }
@@ -106,7 +113,7 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    private void checkValidAuthorIds(List<Long> authorIds){
+    private void checkValidAuthorIds(List<Long> authorIds) {
         if (authorIds.size() != listToUniqueList(authorIds).size()) {
             throw new IllegalArgumentException("Для переданных иденетефикаторов авторов, существуют дубликаты");
         }

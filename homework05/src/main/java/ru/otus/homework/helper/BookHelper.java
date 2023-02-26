@@ -4,11 +4,9 @@ import ru.otus.homework.dto.BookDTO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Locale;
 
 import static java.lang.Long.parseLong;
-import static org.apache.logging.log4j.util.Strings.isBlank;
 import static ru.otus.homework.helper.StringHelper.arrayToDistinctLongList;
 
 public class BookHelper {
@@ -35,7 +33,7 @@ public class BookHelper {
         return bookDTO;
     }
 
-    private static BookDTO bookDTO(){
+    private static BookDTO bookDTO() {
         return new BookDTO();
     }
 
@@ -48,14 +46,14 @@ public class BookHelper {
     }
 
     private static void titleToBookDTO(String title, BookDTO bookDTO) {
-        if (title == null || title.isBlank()){
+        if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("Название книги не может быть пустым");
         }
         bookDTO.setTitle(title);
     }
 
-    private static void releaseDateToBookDTO(String releaseDate, BookDTO bookDTO){
-        if (releaseDate == null || releaseDate.isBlank()){
+    private static void releaseDateToBookDTO(String releaseDate, BookDTO bookDTO) {
+        if (releaseDate == null || releaseDate.isBlank()) {
             throw new IllegalArgumentException("Дата выхода книги не может быть пустой");
         }
         try {
@@ -65,8 +63,8 @@ public class BookHelper {
         }
     }
 
-    private static void authorIdsToBookDTO(String[] authorIds, BookDTO bookDTO){
-        if (authorIds.length > 0){
+    private static void authorIdsToBookDTO(String[] authorIds, BookDTO bookDTO) {
+        if (authorIds.length > 0) {
             try {
                 bookDTO.setAuthorIds(arrayToDistinctLongList(authorIds));
             } catch (NumberFormatException e) {
@@ -75,8 +73,8 @@ public class BookHelper {
         }
     }
 
-    private static void genreIdsToBookDTO(String[] genreIds, BookDTO bookDTO){
-        if (genreIds.length > 0){
+    private static void genreIdsToBookDTO(String[] genreIds, BookDTO bookDTO) {
+        if (genreIds.length > 0) {
             try {
                 bookDTO.setGenreIds(arrayToDistinctLongList(genreIds));
             } catch (NumberFormatException e) {

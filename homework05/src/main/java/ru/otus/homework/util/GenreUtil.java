@@ -21,7 +21,7 @@ public class GenreUtil {
         return authorStringJoiner.toString();
     }
 
-    public List<Long> listToIdList(List<Genre> genres){
+    public List<Long> listToIdList(List<Genre> genres) {
         return genres.stream()
                 .map(Genre::getId)
                 .collect(Collectors.toList());

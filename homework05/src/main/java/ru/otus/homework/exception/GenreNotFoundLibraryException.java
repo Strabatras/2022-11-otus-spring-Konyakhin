@@ -1,6 +1,6 @@
 package ru.otus.homework.exception;
 
-public class GenreNotFoundLibraryException  extends LibraryRuntimeException {
+public class GenreNotFoundLibraryException extends LibraryRuntimeException {
     public GenreNotFoundLibraryException() {
         super();
     }

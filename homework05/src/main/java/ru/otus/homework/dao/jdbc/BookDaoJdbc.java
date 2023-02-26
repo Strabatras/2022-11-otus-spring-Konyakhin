@@ -15,7 +15,6 @@ import ru.otus.homework.domain.Book;
 import ru.otus.homework.domain.Genre;
 import ru.otus.homework.dto.BookDTO;
 
-import java.sql.Types;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,12 +53,6 @@ public class BookDaoJdbc implements BookDao {
             + "  FROM BOOK_AUTHOR AS ba"
             + "  JOIN AUTHOR AS a ON a.ID = ba.AUTHOR_ID";
 
-    private static final String SQL_DELETE_BOOK_AUTHOR_BY_BOOK_ID
-            = "DELETE FROM BOOK_AUTHOR AS ba WHERE ba.BOOK_ID = :book_id";
-
-    private static final String SQL_DELETE_BOOK_GENRE_BY_BOOK_ID
-            = "DELETE FROM BOOK_GENRE AS bg WHERE bg.BOOK_ID = :book_id";
-
     private static final String SQL_DELETE_BOOK_BY_ID
             = "DELETE FROM BOOK b WHERE b.ID = :book_id";
 
@@ -68,20 +61,11 @@ public class BookDaoJdbc implements BookDao {
             + "   SET b.TITLE = :title, b.RELEASE_DATE = :release_date"
             + " WHERE id = :book_id";
 
-
     private static final String SQL_CREATE_BOOK
             = "INSERT INTO BOOK ( TITLE, RELEASE_DATE ) VALUES ( :title, :release_date )";
 
     private static final String SQL_DELETE_BOOK_AUTHOR_BY_BOOK_ID_LIST
             = "DELETE FROM BOOK_AUTHOR AS ba WHERE ba.BOOK_ID = IN ( :book_ids )";
-
-    private static final String SQL_CREATE_BOOK_AUTHOR
-            = "INSERT INTO BOOK_AUTHOR ( BOOK_ID, AUTHOR_ID )"
-            + " VALUES ( :book_id, :author_id )";
-
-    private static final String SQL_CREATE_BOOK_GENRE
-            = "INSERT INTO BOOK_GENRE ( BOOK_ID, GENRE_ID )"
-            + " VALUES ( :book_id, :genre_id )";
 
     private final NamedParameterJdbcOperations namedJdbc;
 
@@ -117,26 +101,13 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public void deleteBookAuthorByBookId(Long id){
-        namedJdbc.update(SQL_DELETE_BOOK_AUTHOR_BY_BOOK_ID,
-                Map.of("book_id", id));
-    }
-
-    @Override
-    public void deleteBookGenreByBookId(Long id){
-        namedJdbc.update(SQL_DELETE_BOOK_GENRE_BY_BOOK_ID,
-                Map.of("book_id", id));
-    }
-    @Override
     public void deleteById(Long id) {
-        deleteBookAuthorByBookId(id);
-        deleteBookGenreByBookId(id);
         namedJdbc.update(SQL_DELETE_BOOK_BY_ID,
                 Map.of("book_id", id));
     }
 
     @Override
-    public void update(BookDTO bookDTO){
+    public void update(BookDTO bookDTO) {
         Map<String, Object> params = Map.of(
                 "title", bookDTO.getTitle(),
                 "release_date", bookDTO.getReleaseDate(),
@@ -154,26 +125,6 @@ public class BookDaoJdbc implements BookDao {
         );
         namedJdbc.update(SQL_CREATE_BOOK, new MapSqlParameterSource(params), keyHolder);
         bookDTO.setId(keyHolder.getKey().longValue());
-    }
-
-    @Override
-    public void createBookAuthorBatch(Long bookId, List<Long> authorIds){
-        var params = authorIds.stream()
-                .map(authorId -> new MapSqlParameterSource()
-                        .addValue("book_id", bookId, Types.NUMERIC)
-                        .addValue("author_id", authorId, Types.NUMERIC))
-                .toArray(MapSqlParameterSource[]::new);
-        namedJdbc.batchUpdate(SQL_CREATE_BOOK_AUTHOR, params);
-    }
-
-    @Override
-    public void createBookGenreBatch(Long bookId, List<Long> genreIds){
-        var params = genreIds.stream()
-                .map(genreId -> new MapSqlParameterSource()
-                        .addValue("book_id", bookId, Types.NUMERIC)
-                        .addValue("genre_id", genreId, Types.NUMERIC))
-                .toArray(MapSqlParameterSource[]::new);
-        namedJdbc.batchUpdate(SQL_CREATE_BOOK_GENRE, params);
     }
 
     private Map<Long, List<Genre>> genreGroupedByBookId() {

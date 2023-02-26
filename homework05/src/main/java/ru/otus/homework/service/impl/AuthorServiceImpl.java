@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.dao.AuthorDao;
 import ru.otus.homework.domain.Author;
-import ru.otus.homework.domain.Book;
-import ru.otus.homework.domain.Genre;
 import ru.otus.homework.exception.AuthorNotFoundLibraryException;
 import ru.otus.homework.service.AuthorService;
 
@@ -33,7 +31,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public List<Author> findByGenreId(Long id){
+    public List<Author> findByGenreId(Long id) {
         return authorDao.findByGenreId(id);
     }
 }

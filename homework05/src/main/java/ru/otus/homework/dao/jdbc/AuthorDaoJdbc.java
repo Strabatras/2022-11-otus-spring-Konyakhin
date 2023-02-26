@@ -6,9 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 import ru.otus.homework.dao.AuthorDao;
 import ru.otus.homework.dao.mapper.AuthorMapper;
-import ru.otus.homework.dao.mapper.GenreMapper;
 import ru.otus.homework.domain.Author;
-import ru.otus.homework.domain.Genre;
 
 import java.util.List;
 import java.util.Map;
@@ -57,10 +55,10 @@ public class AuthorDaoJdbc implements AuthorDao {
     }
 
     @Override
-    public List<Author> findByIdList(List<Long> ids){
-            return namedJdbc.query(SQL_FIND_AUTHORS_BY_ID_LIST,
-                    Map.of("author_ids", ids),
-                    new AuthorMapper());
+    public List<Author> findByIdList(List<Long> ids) {
+        return namedJdbc.query(SQL_FIND_AUTHORS_BY_ID_LIST,
+                Map.of("author_ids", ids),
+                new AuthorMapper());
     }
 
     @Override
