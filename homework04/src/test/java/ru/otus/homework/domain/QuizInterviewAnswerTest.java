@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.otus.homework.DataFactory.QUIZ_ANSWER_NAME;
 
 @DisplayName("Ответ на вопрос")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class QuizInterviewAnswerTest {
 
     @DisplayName("корректно возвращается название ответа")

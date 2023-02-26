@@ -1,4 +1,4 @@
-package ru.otus.homework.util;
+package ru.otus.homework.service.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 import ru.otus.homework.properties.LocalizationPropertie;
+import ru.otus.homework.service.LocalizationService;
 
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -15,9 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static ru.otus.homework.DataFactory.localeNames;
 
 @DisplayName("Локализация сообщений")
-@SpringBootTest
-class LocalizationMessageTest {
-
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
+class LocalizationServiceImplTest {
     @Autowired
     private LocalizationPropertie localizationPropertie;
     @Autowired
@@ -27,7 +27,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyYourselfValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("identify.yourself");
+        String value = localizationService(localeName).getMessage("identify.yourself");
         assertThat(value).isNotBlank();
     }
 
@@ -35,7 +35,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyNameValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("identify.name");
+        String value = localizationService(localeName).getMessage("identify.name");
         assertThat(value).isNotBlank();
     }
 
@@ -43,7 +43,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertySurnameValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("identify.surname");
+        String value = localizationService(localeName).getMessage("identify.surname");
         assertThat(value).isNotBlank();
     }
 
@@ -51,7 +51,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyNameCantBeEmptyValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("identify.name.cant.be.empty");
+        String value = localizationService(localeName).getMessage("identify.name.cant.be.empty");
         assertThat(value).isNotBlank();
     }
 
@@ -59,7 +59,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertySurnameCantBeEmptyValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("identify.surname.cant.be.empty");
+        String value = localizationService(localeName).getMessage("identify.surname.cant.be.empty");
         assertThat(value).isNotBlank();
     }
 
@@ -67,7 +67,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyPersonalityIsFinishedValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("interview.personality.is.finished");
+        String value = localizationService(localeName).getMessage("interview.personality.is.finished");
         assertThat(value).isNotBlank();
     }
 
@@ -75,7 +75,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyAnsweredOfQuestionsValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("interview.answered.of.questions");
+        String value = localizationService(localeName).getMessage("interview.answered.of.questions");
         assertThat(value).isNotBlank();
     }
 
@@ -83,7 +83,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyAnsweredOfCorrectValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("interview.answered.of.correct");
+        String value = localizationService(localeName).getMessage("interview.answered.of.correct");
         assertThat(value).isNotBlank();
     }
 
@@ -91,7 +91,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyMessageApplicationConfigurationErrorValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("error.message.application.configuration.error");
+        String value = localizationService(localeName).getMessage("error.message.application.configuration.error");
         assertThat(value).isNotBlank();
     }
 
@@ -99,7 +99,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyMessageInvalidDataFormatValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("error.message.invalid.data.format");
+        String value = localizationService(localeName).getMessage("error.message.invalid.data.format");
         assertThat(value).isNotBlank();
     }
 
@@ -107,7 +107,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyMessageErrorReadingDataValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("error.message.error.reading.data");
+        String value = localizationService(localeName).getMessage("error.message.error.reading.data");
         assertThat(value).isNotBlank();
     }
 
@@ -115,7 +115,7 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyMessageDontHaveQuestionsValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("error.message.i.dont.have.questions");
+        String value = localizationService(localeName).getMessage("error.message.i.dont.have.questions");
         assertThat(value).isNotBlank();
     }
 
@@ -123,13 +123,13 @@ class LocalizationMessageTest {
     @ParameterizedTest(name = "{index} - {0}")
     @MethodSource("argsProviderLocaleNameFactory")
     void shouldReturnPropertyMessageForUnhandledExceptionValue(String localeName){
-        String value = localizationMessage(localeName).getMessage("error.message.for.unhandled.exception");
+        String value = localizationService(localeName).getMessage("error.message.for.unhandled.exception");
         assertThat(value).isNotBlank();
     }
 
-    private Localization localizationMessage(String localeName){
+    private LocalizationService localizationService(String localeName){
         localizationPropertie.setLocale(new Locale(localeName));
-        return new LocalizationMessage(messageSource, localizationPropertie);
+        return new LocalizationServiceImpl(messageSource, localizationPropertie);
     }
 
     static Stream<String> argsProviderLocaleNameFactory(){

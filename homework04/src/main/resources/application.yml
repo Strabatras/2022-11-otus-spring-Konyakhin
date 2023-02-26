@@ -1,7 +1,14 @@
 spring :
+  main:
+    allow-circular-references: true
   messages :
     basename : "i18n/messages"
     encoding: "UTF-8"
+  shell:
+    interactive:
+      enabled: true
+    history:
+      enabled: false
 quiz :
   localization :
     locale : "ru"

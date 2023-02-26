@@ -14,7 +14,7 @@ import static ru.otus.homework.DataFactory.INTERVIEW_ANSWER;
 import static ru.otus.homework.DataFactory.correctQuizWithAnswers;
 
 @DisplayName("Опрос вопросы/ответ")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class InterviewQuestionAnswerTest {
 
     private Quiz quiz;

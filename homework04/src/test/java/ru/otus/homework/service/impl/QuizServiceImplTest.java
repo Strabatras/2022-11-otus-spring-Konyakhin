@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 import static ru.otus.homework.DataFactory.quizzesWithAnswers;
 
 @DisplayName("Сервис вопросов")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class QuizServiceImplTest {
     @Mock
     private QuizDao quizDao;

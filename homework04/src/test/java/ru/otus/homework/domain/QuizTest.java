@@ -13,7 +13,7 @@ import static ru.otus.homework.DataFactory.QUIZ_NAME;
 import static ru.otus.homework.DataFactory.answers;
 
 @DisplayName("Вопрос")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class QuizTest {
     private static List<QuizAnswer> answers;
 

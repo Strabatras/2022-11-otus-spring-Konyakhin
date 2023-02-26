@@ -23,7 +23,7 @@ import static ru.otus.homework.DataFactory.MESSAGE_FILE_IS_NOT_FOUND;
 import static ru.otus.homework.DataFactory.expectedReadLinesForCorrectQuizzesFile;
 
 @DisplayName("Разбор csv файлов")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class CsvFileDataReaderTest {
 
     @DisplayName("выбрасывает конкретное исключение 'EmptyFileNameQuizException' если имя файла пустое")

@@ -11,7 +11,7 @@ import static ru.otus.homework.DataFactory.PERSONALITY_SURNAME;
 import static ru.otus.homework.DataFactory.personality;
 
 @DisplayName("Персона")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class PersonalityTest {
 
     private Personality personality;

@@ -24,7 +24,7 @@ import static ru.otus.homework.DataFactory.correctQuizWithAnswers;
 import static ru.otus.homework.DataFactory.correctReadLineForQuizFile;
 
 @DisplayName("Вопросы/ответы - DAO")
-@SpringBootTest
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 class QuizDaoImplTest {
     @Mock
     private DataReader dataReader;
