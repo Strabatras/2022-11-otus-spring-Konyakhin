@@ -7,7 +7,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework.service.PrintService;
 
-import static java.lang.Long.parseLong;
+import static org.springframework.shell.standard.ShellOption.NONE;
 
 @RequiredArgsConstructor
 @ShellCommandGroup("Author commands")
@@ -25,9 +25,9 @@ public class ShellAuthorCommands {
     }
 
     @ShellMethod(key = {"author-info", "ai"}, value = "Show author info by id")
-    public void printAuthorInfo(@ShellOption(value = "--id", help = "Identifier of author", defaultValue = "0") String id) {
+    public void printAuthorInfo(@ShellOption(value = "--id", help = "Identifier of author", defaultValue = NONE) String id) {
         try {
-            printService.printAuthorInfo(parseLong(id));
+            printService.printAuthorInfo(id);
         } catch (Exception e) {
             printService.printMessage(e.getMessage());
         }

@@ -20,7 +20,8 @@ import ru.otus.homework.util.GenreUtil;
 
 import java.util.List;
 
-import static java.lang.Long.parseLong;
+import static java.lang.String.format;
+import static ru.otus.homework.helper.StringHelper.stringToLong;
 
 @RequiredArgsConstructor
 @Service
@@ -49,11 +50,12 @@ public class PrintServiceImpl implements PrintService {
     }
 
     @Override
-    public void printAuthorInfo(Long id) {
+    public void printAuthorInfo(String id) {
         try {
-            Author author = authorService.findById(id);
-            List<Book> books = bookService.findByAuthorId(id);
-            List<Genre> genres = genreService.findByAuthorId(id);
+            Long authorId = stringToLong(id);
+            Author author = authorService.findById(authorId);
+            List<Book> books = bookService.findByAuthorId(authorId);
+            List<Genre> genres = genreService.findByAuthorId(authorId);
             outputService.outputString(authorUtil.toStringInfo(author));
             outputService.outputString("  Book's  : " + bookUtil.listToStringInfo(books));
             outputService.outputString("  Genre's : " + genreUtil.listToStringInfo(genres));
@@ -62,7 +64,7 @@ public class PrintServiceImpl implements PrintService {
             throw new IllegalArgumentException("Идентификатор автора должен быть числом", e);
         } catch (AuthorNotFoundLibraryException e) {
             //to-do добавить логирование
-            throw new AuthorNotFoundLibraryException("Автора с таким идентификатором не существует", e);
+            throw new AuthorNotFoundLibraryException(format("Автора с идентификатором {%s} не существует", id), e);
         } catch (Exception e) {
             //to-do добавить логирование
             throw new LibraryRuntimeException(SOMETHING_WENT_WRONG, e);
@@ -83,11 +85,12 @@ public class PrintServiceImpl implements PrintService {
     }
 
     @Override
-    public void printGenreInfo(Long id) {
+    public void printGenreInfo(String id) {
         try {
-            Genre genre = genreService.findById(id);
-            List<Book> books = bookService.findByGenreId(id);
-            List<Author> authors = authorService.findByGenreId(id);
+            Long genreId = stringToLong(id);
+            Genre genre = genreService.findById(genreId);
+            List<Book> books = bookService.findByGenreId(genreId);
+            List<Author> authors = authorService.findByGenreId(genreId);
             outputService.outputString(genreUtil.toStringInfo(genre));
             outputService.outputString("  Book's   : " + bookUtil.listToStringInfo(books));
             outputService.outputString("  Author's : " + authorUtil.listToStringInfo(authors));
@@ -96,7 +99,7 @@ public class PrintServiceImpl implements PrintService {
             throw new IllegalArgumentException("Идентификатор жанра должен быть числом", e);
         } catch (GenreNotFoundLibraryException e) {
             //to-do добавить логирование
-            throw new GenreNotFoundLibraryException("Жанра с таким идентификатором не существует", e);
+            throw new GenreNotFoundLibraryException(format("Жанра с идентификатором {%s} не существует", id), e);
         } catch (Exception e) {
             //to-do добавить логирование
             throw new LibraryRuntimeException(SOMETHING_WENT_WRONG, e);
@@ -119,7 +122,8 @@ public class PrintServiceImpl implements PrintService {
     @Override
     public void printBookInfo(String id) {
         try {
-            Book book = bookService.findById(parseLong(id));
+            Long bookId = stringToLong(id);
+            Book book = bookService.findById(bookId);
             outputService.outputString(bookUtil.toStringInfo(book));
             outputService.outputString("  Author's : " + authorUtil.listToStringInfo(book.getAuthors()));
             outputService.outputString("  Genre's  : " + genreUtil.listToStringInfo(book.getGenres()));
@@ -128,7 +132,7 @@ public class PrintServiceImpl implements PrintService {
             throw new IllegalArgumentException("Идентификатор книги должен быть числом", e);
         } catch (BookNotFoundLibraryException e) {
             //to-do добавить логирование
-            throw new BookNotFoundLibraryException("Книги с таким идентификатором не существует", e);
+            throw new BookNotFoundLibraryException(format("Книги с идентификатором {%s} не существует", id), e);
         } catch (Exception e) {
             //to-do добавить логирование
             throw new LibraryRuntimeException(SOMETHING_WENT_WRONG, e);

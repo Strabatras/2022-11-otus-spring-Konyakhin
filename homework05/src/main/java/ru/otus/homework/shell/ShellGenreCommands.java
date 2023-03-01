@@ -7,7 +7,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework.service.PrintService;
 
-import static java.lang.Long.parseLong;
+import static org.springframework.shell.standard.ShellOption.NONE;
 
 @RequiredArgsConstructor
 @ShellCommandGroup("Genre commands")
@@ -25,9 +25,9 @@ public class ShellGenreCommands {
     }
 
     @ShellMethod(key = {"genre-info", "gi"}, value = "Show genre info by id")
-    public void printGenreInfo(@ShellOption(value = "--id", help = "Identifier of genre", defaultValue = "0") String id) {
+    public void printGenreInfo(@ShellOption(value = "--id", help = "Identifier of genre", defaultValue = NONE) String id) {
         try {
-            printService.printGenreInfo(parseLong(id));
+            printService.printGenreInfo(id);
         } catch (Exception e) {
             printService.printMessage(e.getMessage());
         }

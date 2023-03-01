@@ -10,7 +10,6 @@ import ru.otus.homework.helper.BookHelper;
 import ru.otus.homework.service.BookService;
 import ru.otus.homework.service.PrintService;
 
-import static java.lang.Long.parseLong;
 import static org.springframework.shell.standard.ShellOption.NONE;
 
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class ShellBookCommands {
     }
 
     @ShellMethod(key = {"book-info", "bi"}, value = "Show book info by id")
-    public void printBookInfo(@ShellOption(value = "--id", help = "Identifier of book", defaultValue = "0") String id) {
+    public void printBookInfo(@ShellOption(value = "--id", help = "Identifier of book", defaultValue = NONE) String id) {
         try {
             printService.printBookInfo(id);
         } catch (Exception e) {
@@ -68,7 +67,7 @@ public class ShellBookCommands {
     @ShellMethod(key = {"book-delete", "bd"}, value = "Book delete")
     public void bookDelete(@ShellOption(value = "--id", help = "Identifier of book for deletion", defaultValue = NONE) String id) {
         try {
-            bookService.deleteById(parseLong(id));
+            bookService.deleteById(id);
         } catch (Exception e) {
             printService.printMessage(e.getMessage());
         }

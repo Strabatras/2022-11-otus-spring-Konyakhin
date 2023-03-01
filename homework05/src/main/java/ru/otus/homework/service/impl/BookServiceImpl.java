@@ -21,8 +21,10 @@ import java.util.List;
 import static java.lang.String.format;
 import static ru.otus.homework.helper.AuthorHelper.fakeAuthorIds;
 import static ru.otus.homework.helper.GenreHelper.fakeGenreIds;
+import static ru.otus.homework.helper.ListHelper.isNotEmpty;
 import static ru.otus.homework.helper.LongHelper.listToStringArray;
 import static ru.otus.homework.helper.LongHelper.listToUniqueList;
+import static ru.otus.homework.helper.StringHelper.stringToLong;
 
 @RequiredArgsConstructor
 @Service
@@ -56,10 +58,11 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public void deleteById(Long id) {
-        bookAuthorDao.deleteByBookId(id);
-        bookGenreDao.deleteByBookId(id);
-        bookDao.deleteById(id);
+    public void deleteById(String id) {
+        Long bookId = stringToLong(id);
+        bookAuthorDao.deleteByBookId(bookId);
+        bookGenreDao.deleteByBookId(bookId);
+        bookDao.deleteById(bookId);
     }
 
     @Transactional
@@ -67,20 +70,20 @@ public class BookServiceImpl implements BookService {
     public void update(BookDTO bookDTO) {
         final Book book = bookDao.findById(bookDTO.getId())
                 .orElseThrow(() -> new BookNotFoundLibraryException("Книга не найдена"));
-        if (bookDTO.getGenreIds().size() > 0) {
+        if (isNotEmpty(bookDTO.getGenreIds())) {
             checkValidGenreIds(bookDTO.getGenreIds());
             bookGenreDao.deleteByBookId(bookDTO.getId());
             bookGenreDao.createBatch(bookDTO.getId(), bookDTO.getAuthorIds());
         }
-        if (bookDTO.getAuthorIds().size() > 0) {
+        if (isNotEmpty(bookDTO.getAuthorIds())) {
             checkValidAuthorIds(bookDTO.getAuthorIds());
             bookAuthorDao.deleteByBookId(bookDTO.getId());
             bookAuthorDao.createBatch(bookDTO.getId(), bookDTO.getAuthorIds());
         }
-        if (bookDTO.getTitle() == null) {
+        if (null == bookDTO.getTitle()) {
             bookDTO.setTitle(book.getTitle());
         }
-        if (bookDTO.getReleaseDate() == null) {
+        if (null == bookDTO.getReleaseDate()) {
             bookDTO.setReleaseDate(book.getReleaseDate());
         }
         bookDao.update(bookDTO);
@@ -90,11 +93,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public void create(BookDTO bookDTO) {
         bookDao.create(bookDTO);
-        if (bookDTO.getGenreIds().size() > 0) {
+        if (isNotEmpty(bookDTO.getGenreIds())) {
             checkValidGenreIds(bookDTO.getGenreIds());
             bookGenreDao.createBatch(bookDTO.getId(), bookDTO.getAuthorIds());
         }
-        if (bookDTO.getAuthorIds().size() > 0) {
+        if (isNotEmpty(bookDTO.getAuthorIds())) {
             checkValidAuthorIds(bookDTO.getAuthorIds());
             bookAuthorDao.createBatch(bookDTO.getId(), bookDTO.getAuthorIds());
         }

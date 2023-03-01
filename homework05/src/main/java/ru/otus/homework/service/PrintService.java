@@ -3,11 +3,11 @@ package ru.otus.homework.service;
 public interface PrintService {
     void printAuthorList();
 
-    void printAuthorInfo(Long id);
+    void printAuthorInfo(String id);
 
     void printGenreList();
 
-    void printGenreInfo(Long id);
+    void printGenreInfo(String id);
 
     void printBookList();
 

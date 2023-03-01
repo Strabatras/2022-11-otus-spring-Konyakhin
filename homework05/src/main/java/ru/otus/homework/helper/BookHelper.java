@@ -6,8 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import static java.lang.Long.parseLong;
 import static ru.otus.homework.helper.StringHelper.arrayToDistinctLongList;
+import static ru.otus.homework.helper.StringHelper.stringToLong;
 
 public class BookHelper {
     public static BookDTO paramsToBookDtoForCreate(String title, String releaseDate, String[] authorIds, String[] genreIds) {
@@ -22,10 +22,10 @@ public class BookHelper {
     public static BookDTO paramsToBookDtoForUpdate(String id, String title, String releaseDate, String[] authorIds, String[] genreIds) {
         BookDTO bookDTO = bookDTO();
         idToBookDTO(id, bookDTO);
-        if (title != null) {
+        if (null != title) {
             bookDTO.setTitle(title);
         }
-        if (releaseDate != null) {
+        if (null != releaseDate) {
             releaseDateToBookDTO(releaseDate, bookDTO);
         }
         authorIdsToBookDTO(authorIds, bookDTO);
@@ -39,21 +39,22 @@ public class BookHelper {
 
     private static void idToBookDTO(String id, BookDTO bookDTO) {
         try {
-            bookDTO.setId(parseLong(id));
+            Long bookId = stringToLong(id);
+            bookDTO.setId(bookId);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Идентификатор книги должен быть числом", e);
         }
     }
 
     private static void titleToBookDTO(String title, BookDTO bookDTO) {
-        if (title == null || title.isBlank()) {
+        if (null == title || title.isBlank()) {
             throw new IllegalArgumentException("Название книги не может быть пустым");
         }
         bookDTO.setTitle(title);
     }
 
     private static void releaseDateToBookDTO(String releaseDate, BookDTO bookDTO) {
-        if (releaseDate == null || releaseDate.isBlank()) {
+        if (null == releaseDate || releaseDate.isBlank()) {
             throw new IllegalArgumentException("Дата выхода книги не может быть пустой");
         }
         try {
